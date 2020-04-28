@@ -22,8 +22,8 @@ public class OrderTest {
 	
 	@Before
 	public void setUp() {
-		order = new Order(24, new Customer(1, "Tom"), Date.valueOf("2020-04-20"), 345.99);
-		other = new Order(24, new Customer(1, "Tom"), Date.valueOf("2020-04-20"), 345.99);
+		order = new Order(24, new Customer(1, "Tom"), Date.valueOf("2020-04-20"), true, 345.99);
+		other = new Order(24, new Customer(1, "Tom"), Date.valueOf("2020-04-20"), true, 345.99);
 		empty = new Order();
 	}
 	

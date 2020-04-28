@@ -1,6 +1,7 @@
 package com.qa.controllers;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -19,7 +20,7 @@ public class OrdersMenuControllerTest {
 //	OrderItemService orderItemService;
 //	OrderItemService orderItemService2;
 //	
-//	OrderService orderService;
+	OrderService orderService;
 //	OrderService orderService2;
 	
 	OrdersMenuController ordersController;
@@ -28,11 +29,18 @@ public class OrdersMenuControllerTest {
 	@Before
 	public void setUp() {
 
+		//orderService = new OrderService();
+		orderService = mock(OrderService.class);
+		
 		ordersController = new OrdersMenuController(new OrderItemService());
+		ordersController.setService(orderService);
+		
 		ordersController2 = Mockito.spy(ordersController);
+		
 	}
 	
 	@Test
+	//@Ignore
 	public void selectMenuOptions() {
 		
 		Mockito.doReturn(true).when(ordersController2).isAuthenticated();
@@ -44,12 +52,14 @@ public class OrdersMenuControllerTest {
 	}
 
 	@Test
+	//@Ignore
 	public void view() {
 		Mockito.doReturn("updated").when(ordersController2).update();
 		assertEquals(419.94, ordersController2.view(25), 0.01);
 	}
 	
 	@Test
+	//@Ignore
 	public void update() {
 
 		//SessionHashMap map = SessionHashMap.getSessionHashMap();
@@ -68,7 +78,15 @@ public class OrdersMenuControllerTest {
 	@Test
 	public void completeOrder() {
 		
+		ordersController = new OrdersMenuController(new OrderItemService());
+		ordersController.setService(orderService);
+		ordersController.setMenu(CustomersMenuController.getCustomerMenu());
+		
+		ordersController2 = Mockito.spy(ordersController);
+		
 		Mockito.doReturn(0).when(ordersController2).getDefault();
+		Mockito.doNothing().when(ordersController2).setService(new OrderService());
+		Mockito.doNothing().when(ordersController2).setMenu(CustomersMenuController.getCustomerMenu());
 		Mockito.doReturn(16).when(ordersController2).getCustomerId();
 		Mockito.doNothing().when(ordersController2).putNewOrderId(222);
 		Mockito.doReturn("selected").when(ordersController2).selectMenuOptions();

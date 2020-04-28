@@ -18,10 +18,10 @@ public class OrderDAOImpl implements OrderDAO {
 	private static final String CREATE_ORDER_SQL = "INSERT INTO `Order` " + "(FK_Customer_ID) VALUES " +
 	           "(?);"; 
 	
-	private static final String LIST_ALL_ORDERS_SQL = "SELECT o.Order_ID, o.placed, o.total, " + 
+	private static final String LIST_ALL_ORDERS_SQL = "SELECT o.Order_ID, o.placed, o.paid, o.total, " + 
 			"c.name from `Order` as o INNER JOIN Customer c ON o.FK_Customer_ID = c.Customer_ID;";
 	
-	private static final String SELECT_ORDER_SQL  = "SELECT o.Order_ID, o.placed, o.total, " + 
+	private static final String SELECT_ORDER_SQL  = "SELECT o.Order_ID, o.placed, o.total, o.paid, " + 
 			"c.name from `Order` as o INNER JOIN Customer c ON o.FK_Customer_ID = c.Customer_ID WHERE o.Order_ID = ?;";
 	
 	private static final String DELETE_ORDER_FROM_SYSTEM_SQL = "DELETE from `Order` WHERE" + 
@@ -43,7 +43,6 @@ public class OrderDAOImpl implements OrderDAO {
 			PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ORDER_SQL,
 			        Statement.RETURN_GENERATED_KEYS
 					);
-			
 			preparedStatement.setInt(1, order.getCustomerId());
 			preparedStatement.executeUpdate();
 			ResultSet rs = preparedStatement.getGeneratedKeys();
@@ -73,8 +72,9 @@ public class OrderDAOImpl implements OrderDAO {
 				String name = rs.getString("name");
 				double total = rs.getDouble("total");
 				Date placed = rs.getDate("placed");
+				boolean paid = rs.getBoolean("paid");
 				Customer customer = new Customer(name);
-				ordersList.add(new Order(id, customer, placed, total));
+				ordersList.add(new Order(id, customer, placed, paid, total));
 			}
 
 		} catch(SQLException e) {
@@ -101,9 +101,10 @@ public class OrderDAOImpl implements OrderDAO {
 				int id = rs.getInt("Order_ID");
 				String name = rs.getString("name");
 				double total = rs.getDouble("total");
+				boolean paid = rs.getBoolean("paid");
 				Date placed = rs.getDate("placed");
 				Customer customer = new Customer(name);
-				order = new Order(id, customer, placed, total);
+				order = new Order(id, customer, placed, paid, total);
 			}
 
 		} catch(SQLException e) {

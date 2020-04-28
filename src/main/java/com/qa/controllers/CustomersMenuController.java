@@ -10,6 +10,7 @@ import com.qa.controllers.subcontrollers.CustomerSubMenuController;
 import com.qa.controllers.subcontrollers.SubMenuController;
 import com.qa.main.SessionHashMap;
 import com.qa.models.Customer;
+import com.qa.persistence.service.CrudService;
 import com.qa.persistence.service.CustomerService;
 import com.qa.security.Authenticate;
 import com.qa.utils.Utils;
@@ -21,12 +22,26 @@ public class CustomersMenuController implements MenuController {
 
 	private MenuController menu;
 	private SubMenuController subMenu;
-	CustomerService customerService;// = new CustomerService();
+	private CrudService service;
+	
+	public void setMenu(MenuController menu) {
+		this.menu = menu;
+	}
+	
+	public void setSubMenu(SubMenuController subMenu) {
+		this.subMenu = subMenu;
+	}
+	
+	public void setService(CrudService service) {
+		this.service = service;
+	}
+	
+	//CustomerService customerService;// = new CustomerService();
 	
     public static CustomersMenuController customerMenu;
     
-    public CustomersMenuController(CustomerService customerService) {
-    	this.customerService = customerService;
+    public CustomersMenuController(CrudService service) {
+    	this.service = service;
 	}
     
     public CustomersMenuController() {
@@ -44,13 +59,13 @@ public class CustomersMenuController implements MenuController {
 		/*
 		 * lists all items available in the system
 		 * */
-		menu = CustomersMenuController.getCustomerMenu();
+		setMenu(CustomersMenuController.getCustomerMenu());
 		if(!Authenticate.isAuthenticated()) {
 			LOGGER.info("** Not Authorized **");
 			getCustomerMenu().selectMenuOptions();
 		} else {
 			try {
-				List<Customer> customers = customerService.selectAll();
+				List<Customer> customers = service.selectAll();
 				CustomerListView.listAllCustomers(customers);
 				subMenu = CustomerSubMenuController.getCustomerSubMenu();
 				subMenu.selectSubMenu();
@@ -63,7 +78,8 @@ public class CustomersMenuController implements MenuController {
 	}
 	
 	public void update() {
-		menu = CustomersMenuController.getCustomerMenu();
+		setMenu(CustomersMenuController.getCustomerMenu());
+		setService(new CustomerService());
 		boolean flag = true;
 		String name = "";
 		int customerId = SessionHashMap.getSessionHashMap().get("customerId");
@@ -73,17 +89,18 @@ public class CustomersMenuController implements MenuController {
 			if(name.equals("back")) {
 				flag = false;
 				menu.selectMenuOptions();
-			}
-			if(!name.equals("")) {
-				Customer customer = new Customer(customerId, name);
-				try {
-					customerService.update(customer);
-					flag = false;
-					LOGGER.info("** Successfully updated customer name **");
-					SessionHashMap.getSessionHashMap().replace("default", 0);
-					menu.selectMenuOptions();
-				} catch (SQLException e) {
-					e.printStackTrace();
+			} else {
+				if(!name.equals("")) {
+					Customer customer = new Customer(customerId, name);
+					try {
+						service.update(customer);
+						flag = false;
+						LOGGER.info("** Successfully updated customer name **");
+						SessionHashMap.getSessionHashMap().replace("default", 0);
+						menu.selectMenuOptions();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 
@@ -103,9 +120,9 @@ public class CustomersMenuController implements MenuController {
 	public String selectMenuOptions() {
 		LOGGER.info("*** CUSTOMERS ***");
 		if(isAuthenticated())
-			LOGGER.info("update [1] | back [2]| view all [3] | stop [4]");
+			LOGGER.info("update [1] | back [2]| view all [3]");
 		else
-			LOGGER.info("update [1] | back [2] | stop [4]");
+			LOGGER.info("update [1] | back [2]");
 			
 		String next = "";
 		MainController menu = MainController.getMainMenu();
@@ -124,10 +141,7 @@ public class CustomersMenuController implements MenuController {
 			case "3":	
 				flag = false;
 				viewAll();
-				break;		
-			case "4":	
-				flag = false;
-				break;	
+				break;			
 		    default:
 		    	LOGGER.warn(" -- Wrong command - select 1, 2 or 3 ");		
 			}

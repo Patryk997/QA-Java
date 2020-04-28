@@ -8,36 +8,49 @@ import com.qa.controllers.CustomersMenuController;
 import com.qa.controllers.MenuController;
 import com.qa.main.SessionHashMap;
 import com.qa.models.Customer;
+import com.qa.persistence.service.CrudService;
 import com.qa.persistence.service.CustomerService;
+import com.qa.persistence.service.other.OrderItemService;
 import com.qa.utils.Utils;
 
 public class CustomerSubMenuController implements SubMenuController<Customer> {
 	
 	public static final Logger LOGGER = Logger.getLogger(CustomerSubMenuController.class);
 	
-	MenuController menu; 
+	MenuController menu;
+	CrudService service; 
+	OrderItemService orderItemService;
 	
 	public void setMenu(MenuController menu) {
 		this.menu = menu;
 	}
 	
+	public void setService(CrudService service) {
+		this.service = service;
+	}
+	
+	public CustomerSubMenuController(OrderItemService orderItemService) {
+		this.orderItemService = orderItemService;
+	}
+	
 	public static CustomerSubMenuController customerSubMenu;
-	CustomerService customerService = new CustomerService();
+	
+	
 
 	public static CustomerSubMenuController getCustomerSubMenu() {
 		if(customerSubMenu == null)
-			customerSubMenu = new CustomerSubMenuController(new CustomersMenuController());
+			customerSubMenu = new CustomerSubMenuController(new OrderItemService());
 		return customerSubMenu;
 	}
 	
-	public CustomerSubMenuController(MenuController menu) {
-		this.menu = menu;
-	}
+	
 	
 	@Override
 	public Customer selectById(int id) throws SQLException {
-		Customer customer = customerService.select(id);
-		return customer;
+		setService(new CustomerService());
+		Object customer = service.select(id);
+		Customer customer2 = (Customer) customer;
+		return customer2;
 	}
 	
 	public void deleteCustomerFromSystem(int id) {
@@ -47,7 +60,7 @@ public class CustomerSubMenuController implements SubMenuController<Customer> {
 			LOGGER.info("** You cannot delete current customer **");
 		} else {
 			try {
-				customerService.delete(id);
+				service.delete(id);
 				LOGGER.info("Customer deleted");
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -73,7 +86,7 @@ public class CustomerSubMenuController implements SubMenuController<Customer> {
 
 	@Override
 	public String selectSubMenu() {
-		
+		setMenu(CustomersMenuController.getCustomerMenu());
 		Customer customer = null;
 		boolean flag = true;
 		int customerId = 0;

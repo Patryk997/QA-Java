@@ -12,7 +12,7 @@ import com.qa.controllers.OrdersMenuController;
 import com.qa.main.SessionHashMap;
 
 import com.qa.models.Order;
-import com.qa.persistence.service.CRUDService;
+import com.qa.persistence.service.CrudService;
 import com.qa.persistence.service.ItemsService;
 
 import com.qa.persistence.service.OrderService;
@@ -25,27 +25,36 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 	public static final Logger LOGGER = Logger.getLogger(OrderSubMenuController.class);
 	
 	MenuController menu;
-	CRUDService service;
+	CrudService service;
+	OrderItemService orderItemService;
 	
-	//ItemsService itemsService = new ItemsService();
-	OrderItemService orderItemService = new OrderItemService();
-	//OrderService orderService = new OrderService();
+	public void setMenu(MenuController menu) {
+		this.menu = menu;
+	}
 	
+	public void setService(CrudService service) {
+		this.service = service;
+	}
+	
+	public OrderSubMenuController(OrderItemService orderItemService) {
+		this.orderItemService = orderItemService;
+	}
+
 	public static OrderSubMenuController orderSubMenu;
 	
 	public static OrderSubMenuController getOrderSubMenu() {
 		if(orderSubMenu == null)
-			orderSubMenu = new OrderSubMenuController();
+			orderSubMenu = new OrderSubMenuController(new OrderItemService());
 		return orderSubMenu;	
 	}
 	
-	public void setService(CRUDService service) {
-		this.service = service;
+	public int getSessionId() {
+		return SessionHashMap.getSessionHashMap().get("orderId");
 	}
 	
 	public boolean deleteOrderFromSystem(int orderId) {
 		setService(new OrderService());
-		int currentOrderId = SessionHashMap.getSessionHashMap().get("orderId");
+		int currentOrderId = getSessionId();
 		if(currentOrderId == orderId) {
 			LOGGER.warn("Cannot delete order that has not been finalized yet");
 			return false;
@@ -66,6 +75,10 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 		Order order2 = (Order) order;
 		return order2;
 	}
+	
+	public String getInput() {
+		return Utils.getInput();
+	}
 
 	@Override
 	public String selectSubMenu() {
@@ -73,11 +86,11 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 		Order order = null;
 		int orderId = -1;
 		boolean flag = true;
-		menu = OrdersMenuController.getOrderMenu();
+		setMenu(OrdersMenuController.getOrderMenu());
 		LOGGER.info("Select Order ID or 0 to return");
 		
 		while(flag) {
-			String select = Utils.getInput();
+			String select = getInput();
 			if(select == "0") {
 				menu.selectMenuOptions();
 				flag = false;
@@ -108,7 +121,7 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 		flag = true;
 		while(flag) {
 			LOGGER.info("delete order from the system [1] | back [2]");
-			String next = Utils.getInput();
+			String next = getInput();
 			switch(next) {
 			case "1":
 				deleteOrderFromSystem(orderId);	

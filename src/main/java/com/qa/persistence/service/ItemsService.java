@@ -7,7 +7,7 @@ import com.qa.models.Item;
 import com.qa.persistence.dao.ItemsDAO;
 import com.qa.persistence.dao.ItemsDAOImpl;
 
-public class ItemsService implements CRUDService<Item> {
+public class ItemsService implements CrudService<Item> {
 	
 	private ItemsDAO itemsDAO;
 	

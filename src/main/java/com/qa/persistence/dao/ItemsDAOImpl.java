@@ -13,7 +13,7 @@ import com.qa.utils.ConnectionMySQL;
 
 public class ItemsDAOImpl implements ItemsDAO {
 	
-	private static final String SELECT_ITEM_BY_ID = "SELECT name, value from Item WHERE Item_ID = ?";
+	private static final String SELECT_ITEM_BY_ID = "SELECT Item_ID, name, value from Item WHERE Item_ID = ?";
 	private static final String SELECT_ALL_ITEMS = "SELECT * FROM Item";
 	private static final String INSERT_NEW_ITEM = "INSERT INTO Item (name, value) VALUES (?,?);";
 	private static final String UPDATE_ITEM_SQL = "UPDATE Item SET name = ?, value = ?"
@@ -36,9 +36,10 @@ public class ItemsDAOImpl implements ItemsDAO {
 			rs = preparedStatement.executeQuery();
 					
 			while(rs.next()) {
-				String name = rs.getString("name");
+				int itemId = rs.getInt("Item_ID");
+				String name = rs.getString("name");;
 				double value = rs.getDouble("value");
-				item = new Item(name, value);
+				item = new Item(itemId, name, value);
 			}
 			//connection.close();
 		} catch (SQLException e) {

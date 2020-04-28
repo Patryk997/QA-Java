@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import com.qa.controllers.subcontrollers.ItemSubMenuController;
 import com.qa.controllers.subcontrollers.SubMenuController;
 import com.qa.models.Item;
+import com.qa.persistence.service.CrudService;
 import com.qa.persistence.service.ItemsService;
 import com.qa.security.Authenticate;
 import com.qa.utils.Utils;
@@ -17,11 +18,26 @@ public class ItemsMenuController implements MenuController {
 	
 	public static final Logger LOGGER = Logger.getLogger(ItemsMenuController.class);
 
+	private MenuController menu;
 	private SubMenuController subMenu;
-	ItemsService itemsService;// = new ItemsService();	
+	private CrudService service;
 	
-	public ItemsMenuController(ItemsService itemsService) {
-		this.itemsService = itemsService;
+	public void setMenu(MenuController menu) {
+		this.menu = menu;
+	}
+	
+	public void setSubMenu(SubMenuController subMenu) {
+		this.subMenu = subMenu;
+	}
+	
+	public void setService(CrudService service) {
+		this.service = service;
+	}
+	
+	//ItemsService itemsService;// = new ItemsService();	
+	
+	public ItemsMenuController(CrudService service) {
+		this.service = service;
 	}
 	
 	public static ItemsMenuController itemsMenu;
@@ -37,9 +53,9 @@ public class ItemsMenuController implements MenuController {
 		 * lists all items available in the system
 		 * */
 		try {
-			List<Item> items = itemsService.selectAll();
+			List<Item> items = service.selectAll();
 	        ItemsListView.listAllItems(items);
-	        subMenu = ItemSubMenuController.getItemsSubMenu();
+	        setSubMenu(ItemSubMenuController.getItemsSubMenu());
 			subMenu.selectSubMenu(); 
 
         } catch (Exception e) {
@@ -77,8 +93,9 @@ public class ItemsMenuController implements MenuController {
 			
 			if(valueDouble > 0) {
 				try {
+					setService(new ItemsService());
 					Item item = new Item(name, valueDouble);
-					itemsService.create(item); 
+					service.create(item); 
 					LOGGER.info("Product Added");
 					flag = false;
 					

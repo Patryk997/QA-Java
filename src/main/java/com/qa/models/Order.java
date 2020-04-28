@@ -18,10 +18,12 @@ public class Order {
 		this.id = id;
 	}
 	
-	public Order(Integer id, Customer customer, Date placed, Double total) {
+	
+	public Order(Integer id, Customer customer, Date placed, boolean paid, Double total) {
 		this.id = id;
 		this.customer = customer;
 		this.placed = placed;
+		this.paid = paid;
 		this.total = total;
 	}
 	
@@ -80,10 +82,7 @@ public class Order {
 			return false;
 		if(!Objects.equals(total, other.total))
 			return false;
-		if(!Objects.equals(placed, other.placed))
-			return false;
-
-		return Objects.equals(customer, other.customer);      
+		return Objects.equals(total, other.total);      
 		
 	}
 	

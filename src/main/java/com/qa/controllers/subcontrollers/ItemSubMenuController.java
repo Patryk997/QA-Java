@@ -13,7 +13,7 @@ import com.qa.controllers.MenuController;
 
 import com.qa.main.SessionHashMap;
 import com.qa.models.Item;
-import com.qa.persistence.service.CRUDService;
+import com.qa.persistence.service.CrudService;
 import com.qa.persistence.service.ItemsService;
 import com.qa.persistence.service.other.OrderItemService;
 import com.qa.security.Authenticate;
@@ -24,12 +24,19 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	public static final Logger LOGGER = Logger.getLogger(ItemSubMenuController.class);
 	
 	MenuController menu;
-	CRUDService service;
+	CrudService service;
+	OrderItemService orderItemService;
 	
-	OrderItemService orderItemService = new OrderItemService();
-	
-	ItemSubMenuController(MenuController menu) {
+	public void setMenu(MenuController menu) {
 		this.menu = menu;
+	}
+	
+	public void setService(CrudService service) {
+		this.service = service;
+	}
+	
+	public ItemSubMenuController(OrderItemService orderItemService) {
+		this.orderItemService = orderItemService;
 	}
 	
 	public static ItemSubMenuController itemsSubMenu;
@@ -38,17 +45,14 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	
 	public static ItemSubMenuController getItemsSubMenu() {
 		if(itemsSubMenu == null)
-			itemsSubMenu = new ItemSubMenuController(new ItemsMenuController(new ItemsService()));
+			itemsSubMenu = new ItemSubMenuController(new OrderItemService());
 		return itemsSubMenu;
 	}
 	
-	public void setService(CRUDService service) {
-		this.service = service;
-	}
+	
 	
 	public void add(int index, int orderId) {
 		try {
-			OrderItemService orderItemService = new OrderItemService();
 			orderItemService.addItem(index, orderId);
 			LOGGER.info("** Item added **");
 		} catch (SQLException e) {
@@ -68,8 +72,8 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	}
 	
 	public void deleteItemFromSystem(int index) {
-		menu = ItemsMenuController.getItemsMenu();
-		if(!Authenticate.isAuthenticated()) {
+		setMenu(ItemsMenuController.getItemsMenu());
+		if(!isAuthenticated()) {
 			LOGGER.info("** Not Authorized **");
 			menu.selectMenuOptions();
 		} else {
@@ -83,10 +87,18 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 		}
 	}
 	
-	public void update(int index) {
-		menu = ItemsMenuController.getItemsMenu();
+	public boolean isAuthenticated() {
+		return Authenticate.isAuthenticated();
+	}
+	
+	public String getInput() {
+		return Utils.getInput();
+	}
+	
+	public String update(int index) {
+		setMenu(ItemsMenuController.getItemsMenu());
 		setService(new ItemsService());
-		if(!Authenticate.isAuthenticated()) {
+		if(!isAuthenticated()) {
 			LOGGER.info("** Not Authorized **");
 			menu.selectMenuOptions();
 		} else {
@@ -96,14 +108,14 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 			
 			while(flag) {
 				LOGGER.info("Give a new name: | or select 'back' to return ");
-				name = Utils.getInput();
+				name = getInput();
 				if(name.equals("back")) {
 					flag = false;
 					menu.selectMenuOptions();
 				}
 			    try {
 					LOGGER.info("Give a new value:");
-					String value = Utils.getInput();
+					String value = getInput();
 	                valueDouble = Double.valueOf(value);
 					flag = false;
 				} catch (InputMismatchException e) {
@@ -114,40 +126,49 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 			try {
 				Item item = new Item(index, name, valueDouble);
 				service.update(item);
-				LOGGER.info("item updated");
+				LOGGER.info("** Item updated ***");
 			} catch (SQLException e) {
 				LOGGER.info("Sorry, a problem occured, try again later");
 			}
 		}
+		return "updated";
 		
 	}
 	
 	@Override
 	public Item selectById(int itemId) throws SQLException {
-		service = new ItemsService();
+		setService(new ItemsService());
 		Object item2 = service.select(itemId);
 		Item item = (Item) item2;
 		return item;
 	}
 	
+	public int getSessionId() {
+		return SessionHashMap.getSessionHashMap().get("orderId");
+	}
+	
+	public int convertStringToInt(String select) {
+		return Utils.convertStringToInt(select);
+	}
+	
 	@Override
 	public String selectSubMenu() {
-		int orderId = SessionHashMap.getSessionHashMap().get("orderId");
+		int orderId = getSessionId();
 		Item item = null;
 		int itemId = -1;
 		boolean flag = true;
-		menu = ItemsMenuController.getItemsMenu();
+		setMenu(ItemsMenuController.getItemsMenu());
 		
 		LOGGER.info("Select ID item or 0 to return");
 		while(flag) {
-			String select = Utils.getInput();
+			String select = getInput();
 			if(select == "0") {
 				menu.selectMenuOptions();
 				flag = false;
 			}
 			
 			try {
-				itemId = Utils.convertStringToInt(select);
+				itemId = convertStringToInt(select);
 				item = selectById(itemId);
 				flag = false;
 			} catch (SQLException e) {
@@ -168,14 +189,14 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 
 		flag = true;
 		while(flag) { 
-			if(Authenticate.isAuthenticated()) {
+			if(isAuthenticated()) {
 				LOGGER.info("add to order [1]| decrease quantity [2] | back [3] | update in the system [4]");  
 				LOGGER.info("delete from the system [5] | ");
 			} else {
 				LOGGER.info("add to order [1]| decrease quantity [2] | back [3]");  
 			}
 
-		    String next = Utils.getInput();
+		    String next = getInput();
 			switch(next) {
 				case "1":
 					add(itemId, orderId);			

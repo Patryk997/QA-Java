@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.qa.models.Order;
 
-public interface CRUDService<T> {
+public interface CrudService<T> {
 	
 	int create (T entity) throws SQLException;
 	T select(int id);

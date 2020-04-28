@@ -16,6 +16,7 @@ import com.qa.controllers.CustomersMenuController;
 import com.qa.controllers.MenuController;
 import com.qa.models.Customer;
 import com.qa.persistence.service.CustomerService;
+import com.qa.persistence.service.other.OrderItemService;
 
 
 public class CustomerSubMenuControllerTest {
@@ -26,6 +27,8 @@ public class CustomerSubMenuControllerTest {
 	CustomerService customerService;
 	CustomersMenuController customerController;
 	CustomersMenuController customerController2;
+	
+	OrderItemService orderItemService;
 	
 	CustomerSubMenuController customerSubController;
 	CustomerSubMenuController customerSubController2;
@@ -38,10 +41,13 @@ public class CustomerSubMenuControllerTest {
 		customerController = new CustomersMenuController();
 		customerController2 = Mockito.spy(customerController);
 	
-		menu = new CustomersMenuController();
 		menu2 = mock(CustomersMenuController.class);
 		
-		customerSubController = new CustomerSubMenuController(menu2);
+		orderItemService = mock(OrderItemService.class);
+		
+		customerSubController = new CustomerSubMenuController(orderItemService);
+		customerSubController.setMenu(menu2);
+		
 		customerSubController2 = Mockito.spy(customerSubController);
 	}
 	
@@ -60,6 +66,7 @@ public class CustomerSubMenuControllerTest {
 		Mockito.doReturn(new CustomersMenuController()).when(customerSubController2).getCustomerMenu();
 		Mockito.doReturn("select").when(customerController2).selectMenuOptions();
 		Mockito.doReturn("8").doReturn("2").when(customerSubController2).getInput();
+		Mockito.doNothing().when(customerSubController2).setMenu(CustomersMenuController.getCustomerMenu());
 		Mockito.doReturn(8).when(customerSubController2).convertStringToInt("8");
 		Mockito.doReturn(new Customer(8, "Freddy")).when(customerSubController2).selectById(8);
 		assertEquals("query succeded", customerSubController2.selectSubMenu());

@@ -11,7 +11,7 @@ import com.qa.main.SessionHashMap;
 import com.qa.models.Item;
 import com.qa.models.Order;
 import com.qa.models.OrderItem;
-import com.qa.persistence.service.CRUDService;
+import com.qa.persistence.service.CrudService;
 import com.qa.persistence.service.OrderService;
 import com.qa.persistence.service.other.OrderItemService;
 import com.qa.security.Authenticate;
@@ -23,14 +23,28 @@ import com.qa.views.orderItem.OrderItemListView;
 public class OrdersMenuController implements MenuController {
 	
 	public static final Logger LOGGER = Logger.getLogger(OrdersMenuController.class);
+	
+	public static OrdersMenuController orderMenu;
 
 	private MenuController menu;
 	private SubMenuController subMenu;
-	OrderItemService orderItemService;// = new OrderItemService();
-	//OrderService orderService;// = new OrderService();
-	CRUDService service;
+	private CrudService service;
 	
-    public static OrdersMenuController orderMenu;
+	public void setMenu(MenuController menu) {
+		this.menu = menu;
+	}
+	
+	public void setSubMenu(SubMenuController subMenu) {
+		this.subMenu = subMenu;
+	}
+	
+	public void setService(CrudService service) {
+		this.service = service;
+	}
+	
+	
+	OrderItemService orderItemService;
+
     
     OrdersMenuController(OrderItemService orderItemService) {
     	this.orderItemService = orderItemService;
@@ -42,16 +56,14 @@ public class OrdersMenuController implements MenuController {
 		return orderMenu;
 	}
 	
-	public void setService(CRUDService service) {
-		this.service = service;
-	}
+	
 	
 	@Override
 	public void viewAll() {
 		/*
 		 * lists all items available in the system
 		 * */
-		subMenu = OrderSubMenuController.getOrderSubMenu();
+		setSubMenu(OrderSubMenuController.getOrderSubMenu());
 		if(!Authenticate.isAuthenticated()) {
 			LOGGER.info("** Not Authorized **");
 			getOrderMenu().selectMenuOptions();
@@ -70,11 +82,12 @@ public class OrdersMenuController implements MenuController {
 	}
 	
 	public void delete(int itemId, int orderId) {
+		
 		try {
 			int executed = orderItemService.delete(itemId, orderId);
 			if(executed > 0) {
 				LOGGER.info("Item deleted from the order");	
-				menu.selectMenuOptions();
+				selectMenuOptions();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -84,24 +97,27 @@ public class OrdersMenuController implements MenuController {
 	public String completeOrder(boolean paid, int orderId) {
 		int defaultUser = getDefault();
 		setService(new OrderService());
+		setMenu(CustomersMenuController.getCustomerMenu());
 		if(defaultUser > 0) {
 			LOGGER.info("*** First update customer name to complete the order ***");
-			menu = CustomersMenuController.getCustomerMenu();
+			//menu = CustomersMenuController.getCustomerMenu();
 			menu.selectMenuOptions();
 			return "update customer";
 		}
 		int customerId = getCustomerId();
 		try {
 			Order order = new Order(orderId);
+			
 			service.update(order);
 			Order newOrder = new Order();
-			order.setCustomerId(customerId);
+			newOrder.setCustomerId(customerId);
 			int newOrderId = service.create(newOrder);
+			
 			putNewOrderId(newOrderId);
 			LOGGER.info("*** Your order has been completed ***");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} 
 		selectMenuOptions();
 		return "completed";
 	}
