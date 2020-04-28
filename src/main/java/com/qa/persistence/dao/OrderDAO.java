@@ -7,10 +7,13 @@ import com.qa.models.Order;
 
 public interface OrderDAO {
 
-	int createOrder (Order order) throws SQLException;
-	Order selectOrder(int id);
-	List<Order> selectAllOrders();
-	boolean deleteOrder(int orderId) throws SQLException;
-	boolean completeOrder(boolean paid, int orderId) throws SQLException; 
-	boolean setTotal(double total, int orderId);
+	int create (Order order) throws SQLException;
+	Order select(int id);
+	List<Order> selectAll();
+	boolean delete(int orderId) throws SQLException;
+	boolean update(Order order) throws SQLException;
+	
+	
+	
+	
 }

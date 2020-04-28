@@ -7,7 +7,7 @@ import com.qa.models.Customer;
 import com.qa.persistence.dao.CustomerDAO;
 import com.qa.persistence.dao.CustomerDAOImpl;
 
-public class CustomerService {
+public class CustomerService implements CRUDService<Customer> {
 
 	private CustomerDAO customerDAO;
 	
@@ -15,24 +15,24 @@ public class CustomerService {
 		customerDAO = new CustomerDAOImpl();
 	}
 	
-	public int insertCustomer(Customer customer) throws SQLException {
-		return customerDAO.insertCustomer(customer);
+	public int create(Customer customer) throws SQLException {
+		return customerDAO.create(customer);
 	}
 	
-	public boolean updateCustomer(Customer customer) throws SQLException {
-		return customerDAO.updateCustomer(customer);
+	public boolean update(Customer customer) throws SQLException {
+		return customerDAO.update(customer);
 	}
 	
-	public Customer selectCustomer(int id) {
-		return customerDAO.selectCustomer(id);
+	public Customer select(int id) {
+		return customerDAO.select(id);
 	}
 	
-	public List<Customer> selectAllCustomers() throws SQLException { 
-		return customerDAO.selectAllCustomers();
+	public List<Customer> selectAll() throws SQLException { 
+		return customerDAO.selectAll();
 	}
 	
-	public boolean deleteCustomer(int id) throws SQLException {
-		return customerDAO.deleteCustomer(id); 
+	public boolean delete(int id) throws SQLException {
+		return customerDAO.delete(id); 
 	}
 	
 	public boolean updateCustomerAsAdmin(Customer customer) throws SQLException {

@@ -7,11 +7,12 @@ import com.qa.models.Item;
 
 
 public interface ItemsDAO {
-
-	Item selectItem(int id);
-	List<Item> selectAllItems();
-	int insertItem(Item item) throws SQLException;
-	int updateItem(int index, Item item) throws SQLException;
-	int deleteItem(int index) throws SQLException;
+	
+	int create(Item item) throws SQLException;
+	Item select(int id);
+	List<Item> selectAll();
+	boolean delete(int index) throws SQLException;
+	boolean update(Item item) throws SQLException;
+	
 
 }

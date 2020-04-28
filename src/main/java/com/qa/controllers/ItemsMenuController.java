@@ -37,7 +37,7 @@ public class ItemsMenuController implements MenuController {
 		 * lists all items available in the system
 		 * */
 		try {
-			List<Item> items = itemsService.selectAllItems();
+			List<Item> items = itemsService.selectAll();
 	        ItemsListView.listAllItems(items);
 	        subMenu = ItemSubMenuController.getItemsSubMenu();
 			subMenu.selectSubMenu(); 
@@ -78,7 +78,7 @@ public class ItemsMenuController implements MenuController {
 			if(valueDouble > 0) {
 				try {
 					Item item = new Item(name, valueDouble);
-					itemsService.insertItem(item); 
+					itemsService.create(item); 
 					LOGGER.info("Product Added");
 					flag = false;
 					

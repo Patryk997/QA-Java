@@ -7,7 +7,7 @@ import com.qa.models.Order;
 import com.qa.persistence.dao.OrderDAO;
 import com.qa.persistence.dao.OrderDAOImpl;
 
-public class OrderService {
+public class OrderService implements CRUDService<Order> {
 	
 	private OrderDAO orderDAO;
 	
@@ -15,31 +15,33 @@ public class OrderService {
 		orderDAO = new OrderDAOImpl();
 	}
 	
-	public int createOrder(Order order) throws SQLException {
-		return orderDAO.createOrder(order);
+	public int create(Order order) throws SQLException {
+		return orderDAO.create(order);
 	}
 
 
-	public Order selectOrder(int id) {
-		return orderDAO.selectOrder(id);
+	public Order select(int id) {
+		return orderDAO.select(id);
 	}
 
 
-	public List<Order> selectAllOrders() {
-		return orderDAO.selectAllOrders();
+	public List<Order> selectAll() {
+		return orderDAO.selectAll();
 	}
 
 
-	public boolean deleteOrder(int id) throws SQLException {
-		return orderDAO.deleteOrder(id);
+	public boolean delete(int id) throws SQLException {
+		return orderDAO.delete(id);
 	}
 	
-	public boolean completeOrder(boolean paid, int orderId) throws SQLException {
-		return orderDAO.completeOrder(paid, orderId);
+	
+	
+	public boolean update(Order order) throws SQLException {
+		return orderDAO.update(order);
 	}
 
-	public boolean setTotal(double total, int orderId) {
-		return orderDAO.setTotal(total, orderId);
-	}
+//	public boolean setTotal(double total, int orderId) {
+//		return orderDAO.setTotal(total, orderId);
+//	}
 
 }

@@ -15,14 +15,14 @@ public class CustomerDAOImpl implements CustomerDAO {
 	
 	private static final String INSERT_CUSTOMERS_SQL = "INSERT INTO Customer " + "(name) VALUES " +
 	           "(?);";            
-	private static final String SELECT_CUSTOMER_BY_ID = "SELECT name from Customer WHERE Customer_ID = ?";
+	private static final String SELECT_CUSTOMER_BY_ID = "SELECT Customer_ID, name from Customer WHERE Customer_ID = ?";
 	private static final String SELECT_ALL_CUSTOMERS = "SELECT * FROM Customer";
 	private static final String UPDATE_CUSTOMER_SQL = "UPDATE Customer SET name = ? WHERE Customer_ID = ?";
 	private static final String DELETE_CUSTOMER_SQL = "DELETE FROM Customer WHERE Customer_ID = ?";
 	private static final String UPDATE_CUSTOMER_USER_SQL = "UPDATE Customer SET FK_User_ID = ? WHERE Customer_ID = ?";
 
 	@Override
-	public int insertCustomer(Customer customer) throws SQLException {
+	public int create(Customer customer) throws SQLException {
 		int rowInserted = 0;
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
@@ -43,7 +43,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 
 	@Override
-	public boolean updateCustomer(Customer customer) throws SQLException {
+	public boolean update(Customer customer) throws SQLException {
 		boolean rowUpdated = false;
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
@@ -60,7 +60,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 
 	@Override
-	public Customer selectCustomer(int id) {
+	public Customer select(int id) {
 		Customer customer = null;
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
@@ -69,7 +69,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 			ResultSet rs = preparedStatement.executeQuery();		
 			while(rs.next()) {
 				String name = rs.getString("name");
-				customer = new Customer(name);
+				int customerId = rs.getInt("Customer_ID");
+				customer = new Customer(customerId, name);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,7 +80,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 
 	@Override
-	public List<Customer> selectAllCustomers() {
+	public List<Customer> selectAll() {
 		List<Customer> customers = new ArrayList<>();	
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
@@ -97,7 +98,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 
 	@Override
-	public boolean deleteCustomer(int id) throws SQLException {
+	public boolean delete(int id) throws SQLException {
 		boolean rowDeleted = false;
 		try {
 			Connection connection = ConnectionMySQL.getConnection();

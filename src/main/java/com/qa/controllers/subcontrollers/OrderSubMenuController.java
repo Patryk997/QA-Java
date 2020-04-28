@@ -12,9 +12,11 @@ import com.qa.controllers.OrdersMenuController;
 import com.qa.main.SessionHashMap;
 
 import com.qa.models.Order;
+import com.qa.persistence.service.CRUDService;
 import com.qa.persistence.service.ItemsService;
-import com.qa.persistence.service.OrderItemService;
+
 import com.qa.persistence.service.OrderService;
+import com.qa.persistence.service.other.OrderItemService;
 import com.qa.utils.Utils;
 import com.qa.views.order.OrderDetailsView;
 
@@ -23,9 +25,11 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 	public static final Logger LOGGER = Logger.getLogger(OrderSubMenuController.class);
 	
 	MenuController menu;
-	ItemsService itemsService = new ItemsService();
+	CRUDService service;
+	
+	//ItemsService itemsService = new ItemsService();
 	OrderItemService orderItemService = new OrderItemService();
-	OrderService orderService = new OrderService();
+	//OrderService orderService = new OrderService();
 	
 	public static OrderSubMenuController orderSubMenu;
 	
@@ -35,14 +39,19 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 		return orderSubMenu;	
 	}
 	
+	public void setService(CRUDService service) {
+		this.service = service;
+	}
+	
 	public boolean deleteOrderFromSystem(int orderId) {
+		setService(new OrderService());
 		int currentOrderId = SessionHashMap.getSessionHashMap().get("orderId");
 		if(currentOrderId == orderId) {
 			LOGGER.warn("Cannot delete order that has not been finalized yet");
 			return false;
 		}	
 		try {
-			orderService.deleteOrder(orderId);
+			service.delete(orderId);
 			LOGGER.info("Order deleted");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -52,8 +61,10 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 		
 	@Override
 	public Order selectById(int orderId) throws SQLException {
-		Order order = orderService.selectOrder(orderId);
-		return order;
+		setService(new OrderService());
+		Object order = service.select(orderId);
+		Order order2 = (Order) order;
+		return order2;
 	}
 
 	@Override

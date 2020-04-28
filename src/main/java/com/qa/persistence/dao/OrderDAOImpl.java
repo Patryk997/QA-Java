@@ -33,11 +33,10 @@ public class OrderDAOImpl implements OrderDAO {
 	private static final String COMPLETE_ORDER_SQL = "UPDATE `Order` SET placed = CURDATE(), paid = ?"
 			+ " WHERE Order_ID = ?;";
 	
-	private static final String SET_TOTAL_SQL = "UPDATE `Order` SET total = ?"
-			+ " WHERE Order_ID = ?;";
+	
 	
 	@Override
-	public int createOrder(Order order) throws SQLException { 
+	public int create(Order order) throws SQLException { 
 		int rowInserted = 0;
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
@@ -59,7 +58,7 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 	
 	@Override
-	public List<Order> selectAllOrders() {
+	public List<Order> selectAll() {
 		List<Order> ordersList = new ArrayList<Order>();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -87,7 +86,7 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public Order selectOrder(int orderId) {
+	public Order select(int orderId) {
 		Order order = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -117,7 +116,7 @@ public class OrderDAOImpl implements OrderDAO {
 
 
 	@Override
-	public boolean deleteOrder(int orderId) throws SQLException {
+	public boolean delete(int orderId) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		boolean rowDeleted = false;
 		try {
@@ -145,15 +144,15 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public boolean completeOrder(boolean paid, int orderId) throws SQLException {
+	public boolean update(Order order) throws SQLException {
 		boolean rowUpdated = false;
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(COMPLETE_ORDER_SQL,
 			        Statement.RETURN_GENERATED_KEYS);
 		
-			preparedStatement.setBoolean(1, paid);
-			preparedStatement.setInt(2, orderId);
+			preparedStatement.setBoolean(1, true);
+			preparedStatement.setInt(2, order.getId());
 			preparedStatement.executeUpdate();
 			rowUpdated = true;
 			
@@ -163,21 +162,6 @@ public class OrderDAOImpl implements OrderDAO {
 		return rowUpdated;
 	}
 
-	@Override
-	public boolean setTotal(double total, int orderId) {
-		boolean rowUpdated = false;
-		try {
-			Connection connection = ConnectionMySQL.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement(SET_TOTAL_SQL);	
-			preparedStatement.setDouble(1, total);
-			preparedStatement.setInt(2, orderId);
-			preparedStatement.executeUpdate();
-			rowUpdated = true;
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return rowUpdated;
-	}
+	
 
 }

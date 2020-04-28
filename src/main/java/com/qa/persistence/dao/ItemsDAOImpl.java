@@ -23,7 +23,7 @@ public class ItemsDAOImpl implements ItemsDAO {
 
 	
 	@Override
-	public Item selectItem(int id) {
+	public Item select(int id) {
 		Item item = null;
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
@@ -50,7 +50,7 @@ public class ItemsDAOImpl implements ItemsDAO {
 	}
 
 	@Override
-	public List<Item> selectAllItems() {
+	public List<Item> selectAll() {
 		PreparedStatement preparedStatement = null;
 		Connection connection = null;
 		ResultSet rs  = null;
@@ -77,7 +77,7 @@ public class ItemsDAOImpl implements ItemsDAO {
 	}
 
 	@Override
-	public int insertItem(Item item) {
+	public int create(Item item) {
 		int rowInserted = 0;
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
@@ -99,8 +99,8 @@ public class ItemsDAOImpl implements ItemsDAO {
 	}
 
 	@Override
-	public int updateItem(int index, Item item) throws SQLException {
-		int rowInserted = 0;
+	public boolean update(Item item) throws SQLException {
+		boolean rowInserted = false;
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ITEM_SQL,
@@ -109,11 +109,11 @@ public class ItemsDAOImpl implements ItemsDAO {
 			System.out.println("name: " + item.getName() + " value: " + item.getValue());
 			preparedStatement.setString(1, item.getName());
 			preparedStatement.setDouble(2, item.getValue());
-			preparedStatement.setInt(3, index);
+			preparedStatement.setInt(3, item.getId());
 			preparedStatement.executeUpdate();
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 			if (rs.next()) {
-			    rowInserted = rs.getInt(1);
+			    //rowInserted = rs.getInt(1);
 			}
 			
 		} catch (Exception e) {
@@ -123,8 +123,8 @@ public class ItemsDAOImpl implements ItemsDAO {
 	}
 
 	@Override
-	public int deleteItem(int index) {
-		int rowDeleted = 0;
+	public boolean delete(int index) {
+		boolean rowDeleted = false;
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ITEM_FROM_ORDER_ITEMS_SQL,
@@ -134,7 +134,7 @@ public class ItemsDAOImpl implements ItemsDAO {
 			preparedStatement.executeUpdate();
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 			if (rs.next()) {
-			    rowDeleted = rs.getInt(1);
+			    //rowDeleted = rs.getInt(1);
 			}
 			
 		} catch (Exception e) {
@@ -149,13 +149,13 @@ public class ItemsDAOImpl implements ItemsDAO {
 			preparedStatement.executeUpdate();
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 			if (rs.next()) {
-			    rowDeleted = rs.getInt(1);
+			   // rowDeleted = rs.getInt(1);
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return rowDeleted;
+		return true;
 	}
 
 

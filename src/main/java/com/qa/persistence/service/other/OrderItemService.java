@@ -1,4 +1,4 @@
-package com.qa.persistence.service;
+package com.qa.persistence.service.other;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -8,7 +8,7 @@ import com.qa.models.OrderItem;
 import com.qa.persistence.dao.OrderItemDAO;
 import com.qa.persistence.dao.OrderItemDAOImpl;
 
-public class OrderItemService {
+public class OrderItemService  {
 	
 	private OrderItemDAO orderItemDAO;
 	
@@ -34,6 +34,10 @@ public class OrderItemService {
 	
 	public int delete(int itemId, int orderId) throws SQLException  {
 		return orderItemDAO.delete(itemId, orderId);
+	}
+	
+	public boolean setTotal(double total, int orderId) {
+		return orderItemDAO.setTotal(total, orderId);
 	}
 
 }

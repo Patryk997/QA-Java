@@ -35,6 +35,9 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 	
 	private static final String DELETE_ORDER_ITEM_SQL = "DELETE from Order_Item WHERE FK_Item_ID = ? AND FK_Order_ID = ?;";
 	
+	private static final String SET_TOTAL_SQL = "UPDATE `Order` SET total = ?"
+			+ " WHERE Order_ID = ?;";
+	
 	
 	@Override
 	public int addItem(int itemId, int orderId) {
@@ -187,6 +190,23 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 			e.printStackTrace();
 		}
 		return rowDeleted;
+	}
+
+	@Override
+	public boolean setTotal(double total, int orderId) {
+		boolean rowUpdated = false;
+		try {
+			Connection connection = ConnectionMySQL.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(SET_TOTAL_SQL);	
+			preparedStatement.setDouble(1, total);
+			preparedStatement.setInt(2, orderId);
+			preparedStatement.executeUpdate();
+			rowUpdated = true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rowUpdated;
 	}
 
 }

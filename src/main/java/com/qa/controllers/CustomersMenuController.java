@@ -50,7 +50,7 @@ public class CustomersMenuController implements MenuController {
 			getCustomerMenu().selectMenuOptions();
 		} else {
 			try {
-				List<Customer> customers = customerService.selectAllCustomers();
+				List<Customer> customers = customerService.selectAll();
 				CustomerListView.listAllCustomers(customers);
 				subMenu = CustomerSubMenuController.getCustomerSubMenu();
 				subMenu.selectSubMenu();
@@ -77,7 +77,7 @@ public class CustomersMenuController implements MenuController {
 			if(!name.equals("")) {
 				Customer customer = new Customer(customerId, name);
 				try {
-					customerService.updateCustomer(customer);
+					customerService.update(customer);
 					flag = false;
 					LOGGER.info("** Successfully updated customer name **");
 					SessionHashMap.getSessionHashMap().replace("default", 0);

@@ -13,8 +13,9 @@ import com.qa.controllers.MenuController;
 
 import com.qa.main.SessionHashMap;
 import com.qa.models.Item;
+import com.qa.persistence.service.CRUDService;
 import com.qa.persistence.service.ItemsService;
-import com.qa.persistence.service.OrderItemService;
+import com.qa.persistence.service.other.OrderItemService;
 import com.qa.security.Authenticate;
 import com.qa.utils.Utils;
 
@@ -23,19 +24,31 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	public static final Logger LOGGER = Logger.getLogger(ItemSubMenuController.class);
 	
 	MenuController menu;
+	CRUDService service;
+	
+	OrderItemService orderItemService = new OrderItemService();
+	
+	ItemSubMenuController(MenuController menu) {
+		this.menu = menu;
+	}
 	
 	public static ItemSubMenuController itemsSubMenu;
-	ItemsService itemsService = new ItemsService();
-	OrderItemService orderItemService = new OrderItemService();
+	
+	//OrderItemService orderItemService = new OrderItemService();
 	
 	public static ItemSubMenuController getItemsSubMenu() {
 		if(itemsSubMenu == null)
-			itemsSubMenu = new ItemSubMenuController();
+			itemsSubMenu = new ItemSubMenuController(new ItemsMenuController(new ItemsService()));
 		return itemsSubMenu;
+	}
+	
+	public void setService(CRUDService service) {
+		this.service = service;
 	}
 	
 	public void add(int index, int orderId) {
 		try {
+			OrderItemService orderItemService = new OrderItemService();
 			orderItemService.addItem(index, orderId);
 			LOGGER.info("** Item added **");
 		} catch (SQLException e) {
@@ -61,7 +74,7 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 			menu.selectMenuOptions();
 		} else {
 			try {
-				itemsService.deleteItem(index);
+				service.delete(index);
 				LOGGER.info("Item deleted from the system");
 				menu.selectMenuOptions();
 			} catch (SQLException e) {
@@ -72,6 +85,7 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	
 	public void update(int index) {
 		menu = ItemsMenuController.getItemsMenu();
+		setService(new ItemsService());
 		if(!Authenticate.isAuthenticated()) {
 			LOGGER.info("** Not Authorized **");
 			menu.selectMenuOptions();
@@ -98,8 +112,8 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 			}
 					
 			try {
-				Item item = new Item(name, valueDouble);
-				itemsService.updateItem(index, item);
+				Item item = new Item(index, name, valueDouble);
+				service.update(item);
 				LOGGER.info("item updated");
 			} catch (SQLException e) {
 				LOGGER.info("Sorry, a problem occured, try again later");
@@ -110,7 +124,9 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	
 	@Override
 	public Item selectById(int itemId) throws SQLException {
-		Item item = itemsService.selectItem(itemId);
+		service = new ItemsService();
+		Object item2 = service.select(itemId);
+		Item item = (Item) item2;
 		return item;
 	}
 	

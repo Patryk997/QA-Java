@@ -15,5 +15,6 @@ public interface OrderItemDAO {
 	List<OrderItem> listOrderItems(int orderId) throws SQLException;
 	Item selectOrderItem(int itemId, int orderId) throws SQLException;
 	int delete(int itemId, int orderId) throws SQLException;
+	boolean setTotal(double total, int orderId);
 
 }

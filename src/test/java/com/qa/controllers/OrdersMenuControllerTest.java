@@ -3,6 +3,7 @@ package com.qa.controllers;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -10,8 +11,8 @@ import com.qa.main.ScannerHashMap;
 import com.qa.main.SessionHashMap;
 import com.qa.models.Item;
 import com.qa.persistence.service.ItemsService;
-import com.qa.persistence.service.OrderItemService;
 import com.qa.persistence.service.OrderService;
+import com.qa.persistence.service.other.OrderItemService;
 
 public class OrdersMenuControllerTest {
 	
@@ -27,7 +28,7 @@ public class OrdersMenuControllerTest {
 	@Before
 	public void setUp() {
 
-		ordersController = new OrdersMenuController(new OrderItemService(), new OrderService());
+		ordersController = new OrdersMenuController(new OrderItemService());
 		ordersController2 = Mockito.spy(ordersController);
 	}
 	
@@ -51,7 +52,7 @@ public class OrdersMenuControllerTest {
 	@Test
 	public void update() {
 
-		SessionHashMap map = SessionHashMap.getSessionHashMap();
+		//SessionHashMap map = SessionHashMap.getSessionHashMap();
 		String id = "2";
 		String next = "1";
 		Mockito.doReturn(id).doReturn(next).when(ordersController2).getInput();

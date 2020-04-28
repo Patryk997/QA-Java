@@ -11,8 +11,9 @@ import com.qa.main.SessionHashMap;
 import com.qa.models.Item;
 import com.qa.models.Order;
 import com.qa.models.OrderItem;
-import com.qa.persistence.service.OrderItemService;
+import com.qa.persistence.service.CRUDService;
 import com.qa.persistence.service.OrderService;
+import com.qa.persistence.service.other.OrderItemService;
 import com.qa.security.Authenticate;
 import com.qa.utils.Utils;
 import com.qa.views.order.OrdersListView;
@@ -26,19 +27,23 @@ public class OrdersMenuController implements MenuController {
 	private MenuController menu;
 	private SubMenuController subMenu;
 	OrderItemService orderItemService;// = new OrderItemService();
-	OrderService orderService;// = new OrderService();
+	//OrderService orderService;// = new OrderService();
+	CRUDService service;
 	
     public static OrdersMenuController orderMenu;
     
-    OrdersMenuController(OrderItemService orderItemService, OrderService orderServide) {
+    OrdersMenuController(OrderItemService orderItemService) {
     	this.orderItemService = orderItemService;
-    	this.orderService = orderServide;
     }
 	
 	public static OrdersMenuController getOrderMenu() {
 		if(orderMenu == null)
-			orderMenu = new OrdersMenuController(new OrderItemService(), new OrderService());
+			orderMenu = new OrdersMenuController(new OrderItemService());
 		return orderMenu;
+	}
+	
+	public void setService(CRUDService service) {
+		this.service = service;
 	}
 	
 	@Override
@@ -53,7 +58,8 @@ public class OrdersMenuController implements MenuController {
 		}
 		
 		try {
-			List<Order> ordersList = orderService.selectAllOrders();
+			setService(new OrderService());
+			List<Order> ordersList = service.selectAll();
 	        OrdersListView.listAllOrders(ordersList);
 			subMenu.selectSubMenu(); 
 
@@ -77,6 +83,7 @@ public class OrdersMenuController implements MenuController {
 	
 	public String completeOrder(boolean paid, int orderId) {
 		int defaultUser = getDefault();
+		setService(new OrderService());
 		if(defaultUser > 0) {
 			LOGGER.info("*** First update customer name to complete the order ***");
 			menu = CustomersMenuController.getCustomerMenu();
@@ -85,10 +92,11 @@ public class OrdersMenuController implements MenuController {
 		}
 		int customerId = getCustomerId();
 		try {
-			orderService.completeOrder(paid, orderId);
-			Order order = new Order();
+			Order order = new Order(orderId);
+			service.update(order);
+			Order newOrder = new Order();
 			order.setCustomerId(customerId);
-			int newOrderId = orderService.createOrder(order);
+			int newOrderId = service.create(newOrder);
 			putNewOrderId(newOrderId);
 			LOGGER.info("*** Your order has been completed ***");
 		} catch (SQLException e) {
@@ -110,6 +118,8 @@ public class OrdersMenuController implements MenuController {
             setTotal(total, orderId);
 	        if(!orderItems.isEmpty())
 	        	update();
+	        else
+	        	selectMenuOptions();
         } catch (SQLException e) {
         	e.printStackTrace();
         	menu.selectMenuOptions();
@@ -118,12 +128,10 @@ public class OrdersMenuController implements MenuController {
 	}
 	
 	public boolean setTotal(double total, int orderId) {
-		return orderService.setTotal(total, orderId); 
+		return orderItemService.setTotal(total, orderId); 
 	}
 	
-	public int getOrderId() {
-		return SessionHashMap.getSessionHashMap().get("orderId");
-	}
+	
 	
 	public String getInput() {
 		return Utils.getInput();
@@ -152,6 +160,10 @@ public class OrdersMenuController implements MenuController {
 	
 	public void putNewOrderId(int newOrderId) {
 		SessionHashMap.getSessionHashMap().put("orderId", newOrderId);
+	}
+	
+	public int getOrderId() {
+		return SessionHashMap.getSessionHashMap().get("orderId");
 	}
 	
 	public String update() {
@@ -230,7 +242,6 @@ public class OrdersMenuController implements MenuController {
 		String next = "";
 		MainController menu = MainController.getMainMenu();
 		int orderId = getOrderId();
-	
 		boolean flag = true;
         while(flag) {
         	

@@ -7,7 +7,7 @@ import com.qa.models.Item;
 import com.qa.persistence.dao.ItemsDAO;
 import com.qa.persistence.dao.ItemsDAOImpl;
 
-public class ItemsService {
+public class ItemsService implements CRUDService<Item> {
 	
 	private ItemsDAO itemsDAO;
 	
@@ -15,24 +15,24 @@ public class ItemsService {
 		this.itemsDAO = new ItemsDAOImpl();
 	}
 	
-	public Item selectItem(int id) {
-		return itemsDAO.selectItem(id);
+	public Item select(int id) {
+		return itemsDAO.select(id);
 	}
 	
-	public List<Item> selectAllItems(){
-		return itemsDAO.selectAllItems();
+	public List<Item> selectAll(){
+		return itemsDAO.selectAll();
 	}
 	
-	public int insertItem(Item item) throws SQLException {
-		return itemsDAO.insertItem(item);
+	public int create(Item item) throws SQLException {
+		return itemsDAO.create(item);
 	}
 	
-	public int updateItem(int index, Item item) throws SQLException {
-		return itemsDAO.updateItem(index, item);
+	public boolean update(Item item) throws SQLException {
+		return itemsDAO.update(item);
 	}
 	
-	public int deleteItem(int index) throws SQLException{
-		return itemsDAO.deleteItem(index);
+	public boolean delete(int index) throws SQLException{
+		return itemsDAO.delete(index);
 	}
 
 }

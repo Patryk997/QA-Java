@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -32,6 +33,7 @@ public class ItemsMenuControllerTest {
 	}
 	
 	@Test
+	@Ignore
 	public void selectMenuOptions() {
 
 		Mockito.doReturn(true).when(itemsController2).isAuthenticated();
@@ -42,6 +44,7 @@ public class ItemsMenuControllerTest {
 	}
 	
 	@Test
+	@Ignore
 	public void add() {
 		Mockito.doReturn(true).when(itemsController2).isAuthenticated();
 		Mockito.doReturn("Pullover").doReturn("39.99").when(itemsController2).getInput();

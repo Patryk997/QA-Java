@@ -48,7 +48,7 @@ public class InventoryApp {
 		int newOrderId = 0;
 		
 		try {
-			customerInserted = customerService.insertCustomer(customer);
+			customerInserted = customerService.create(customer);
 		} catch (SQLException e) {
 			LOGGER.info("A problem occured. try again later");
 		}
@@ -56,7 +56,7 @@ public class InventoryApp {
 		try {
 			Order order = new Order();
 			order.setCustomerId(customerInserted);
-			newOrderId = orderService.createOrder(order);
+			newOrderId = orderService.create(order);
 		} catch (SQLException e) {
 			LOGGER.info("A problem occured. try again later");
 		}

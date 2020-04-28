@@ -15,36 +15,60 @@ public class CustomerSubMenuController implements SubMenuController<Customer> {
 	
 	public static final Logger LOGGER = Logger.getLogger(CustomerSubMenuController.class);
 	
-	MenuController menu;
+	MenuController menu; 
+	
+	public void setMenu(MenuController menu) {
+		this.menu = menu;
+	}
 	
 	public static CustomerSubMenuController customerSubMenu;
 	CustomerService customerService = new CustomerService();
 
 	public static CustomerSubMenuController getCustomerSubMenu() {
 		if(customerSubMenu == null)
-			customerSubMenu = new CustomerSubMenuController();
+			customerSubMenu = new CustomerSubMenuController(new CustomersMenuController());
 		return customerSubMenu;
+	}
+	
+	public CustomerSubMenuController(MenuController menu) {
+		this.menu = menu;
 	}
 	
 	@Override
 	public Customer selectById(int id) throws SQLException {
-		Customer customer = customerService.selectCustomer(id);
+		Customer customer = customerService.select(id);
 		return customer;
 	}
 	
 	public void deleteCustomerFromSystem(int id) {
-		int customerId = SessionHashMap.getSessionHashMap().get("customerId");
-		menu = CustomersMenuController.getCustomerMenu();
+		int customerId = getCustomerId();
+		//menu = CustomersMenuController.getCustomerMenu();
 		if(id == customerId) {
 			LOGGER.info("** You cannot delete current customer **");
 		} else {
 			try {
-				customerService.deleteCustomer(id);
+				customerService.delete(id);
 				LOGGER.info("Customer deleted");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public int getCustomerId() {
+		return SessionHashMap.getSessionHashMap().get("customerId");
+	}
+	
+	public String getInput() {
+		return Utils.getInput();
+	}
+	
+	public CustomersMenuController getCustomerMenu() {
+		return CustomersMenuController.getCustomerMenu();
+	}
+	
+	public int convertStringToInt(String select) {
+		return Utils.convertStringToInt(select);
 	}
 
 	@Override
@@ -53,25 +77,28 @@ public class CustomerSubMenuController implements SubMenuController<Customer> {
 		Customer customer = null;
 		boolean flag = true;
 		int customerId = 0;
-		menu = CustomersMenuController.getCustomerMenu();
+		//menu = getCustomerMenu();
 		LOGGER.info("Select customer ID or 0 to return");
 		while(flag) {
-			String select = Utils.getInput();
+			String select = getInput();
 			if(select == "0") {
+			
 				menu.selectMenuOptions();
 				flag = false;
 			}
 				
 			try {
-				customerId = Utils.convertStringToInt(select);
+				customerId = convertStringToInt(select);
 				customer = selectById(customerId);
 				flag = false;
 			} catch (SQLException e) {
 				e.printStackTrace();
 				LOGGER.warn("This customer does not exist");
+				
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				LOGGER.warn("Select correct customer ID");
+				
 			}
 		}	
 		if(customer == null) {
@@ -83,7 +110,7 @@ public class CustomerSubMenuController implements SubMenuController<Customer> {
 		flag = true;
 		while(flag) {
 			LOGGER.info("delete customer [1]  | back [2]");
-			String next = Utils.getInput();
+			String next = getInput();
 			switch(next) {
 				case "1":
 					deleteCustomerFromSystem(customerId);			
@@ -91,6 +118,7 @@ public class CustomerSubMenuController implements SubMenuController<Customer> {
 					
 				case "2":
 					menu.selectMenuOptions();
+					flag = false;
 					break;
 
 				default:	

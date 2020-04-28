@@ -14,6 +14,10 @@ public class Order {
 	
 	public Order() { }
 	
+	public Order(Integer id) {
+		this.id = id;
+	}
+	
 	public Order(Integer id, Customer customer, Date placed, Double total) {
 		this.id = id;
 		this.customer = customer;
