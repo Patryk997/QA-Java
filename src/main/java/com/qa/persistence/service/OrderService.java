@@ -7,7 +7,7 @@ import com.qa.models.Order;
 import com.qa.persistence.dao.OrderDAO;
 import com.qa.persistence.dao.OrderDAOImpl;
 
-public class OrderService implements CrudService<Order> {
+public class OrderService implements Service<Order> {
 	
 	private OrderDAO orderDAO;
 	

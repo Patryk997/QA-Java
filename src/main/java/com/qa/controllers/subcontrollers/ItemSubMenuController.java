@@ -14,7 +14,7 @@ import com.qa.controllers.MenuController;
 import com.qa.main.SessionHashMap;
 import com.qa.models.Item;
 import com.qa.models.OrderItem;
-import com.qa.persistence.service.CrudService;
+import com.qa.persistence.service.Service;
 import com.qa.persistence.service.ItemsService;
 import com.qa.persistence.service.other.OrderItemService;
 import com.qa.security.Authenticate;
@@ -25,14 +25,14 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	public static final Logger LOGGER = Logger.getLogger(ItemSubMenuController.class);
 	
 	MenuController menu;
-	CrudService service;
+	Service service;
 	OrderItemService orderItemService;
 	
 	public void setMenu(MenuController menu) {
 		this.menu = menu;
 	}
 	
-	public void setService(CrudService service) {
+	public void setService(Service service) {
 		this.service = service;
 	}
 	

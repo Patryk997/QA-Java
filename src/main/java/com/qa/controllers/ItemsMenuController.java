@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import com.qa.controllers.subcontrollers.ItemSubMenuController;
 import com.qa.controllers.subcontrollers.SubMenuController;
 import com.qa.models.Item;
-import com.qa.persistence.service.CrudService;
+import com.qa.persistence.service.Service;
 import com.qa.persistence.service.ItemsService;
 import com.qa.security.Authenticate;
 import com.qa.utils.Utils;
@@ -21,7 +21,7 @@ public class ItemsMenuController implements MenuController {
 
 	private MenuController menu;
 	private SubMenuController subMenu;
-	private CrudService service;
+	private Service service;
 	
 	public void setMenu(MenuController menu) {
 		this.menu = menu;
@@ -31,13 +31,13 @@ public class ItemsMenuController implements MenuController {
 		this.subMenu = subMenu;
 	}
 	
-	public void setService(CrudService service) {
+	public void setService(Service service) {
 		this.service = service;
 	}
 	
 	//ItemsService itemsService;// = new ItemsService();	
 	
-	public ItemsMenuController(CrudService service) {
+	public ItemsMenuController(Service service) {
 		this.service = service;
 	}
 	

@@ -11,12 +11,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.qa.models.Item;
-import com.qa.persistence.service.CrudService;
+import com.qa.persistence.service.Service;
 import com.qa.persistence.service.ItemsService;
 
 public class ItemsServiceTest {
 	
-	CrudService<Item> itemsService;
+	Service<Item> itemsService;
 	
 	@Before
 	public void setUp() {

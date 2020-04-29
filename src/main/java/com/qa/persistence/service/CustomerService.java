@@ -7,7 +7,7 @@ import com.qa.models.Customer;
 import com.qa.persistence.dao.CustomerDAO;
 import com.qa.persistence.dao.CustomerDAOImpl;
 
-public class CustomerService implements CrudService<Customer> {
+public class CustomerService implements Service<Customer> {
 
 	private CustomerDAO customerDAO;
 	
