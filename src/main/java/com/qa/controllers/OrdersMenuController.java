@@ -1,6 +1,7 @@
 package com.qa.controllers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -59,10 +60,11 @@ public class OrdersMenuController implements MenuController {
 	
 	
 	@Override
-	public void viewAll() {
+	public List<Order> viewAll() {
 		/*
 		 * lists all items available in the system
 		 * */
+		List<Order> ordersList = new ArrayList<Order>();
 		setSubMenu(OrderSubMenuController.getOrderSubMenu());
 		if(!Authenticate.isAuthenticated()) {
 			LOGGER.info("** Not Authorized **");
@@ -71,7 +73,7 @@ public class OrdersMenuController implements MenuController {
 		
 		try {
 			setService(new OrderService());
-			List<Order> ordersList = service.selectAll();
+			ordersList = service.selectAll();
 	        OrdersListView.listAllOrders(ordersList);
 			subMenu.selectSubMenu(); 
 
@@ -79,6 +81,7 @@ public class OrdersMenuController implements MenuController {
         	e.printStackTrace();
         	menu.selectMenuOptions();
         }
+		return ordersList;
 	}
 	
 	public void delete(int itemId, int orderId) {
@@ -122,6 +125,10 @@ public class OrdersMenuController implements MenuController {
 		return "completed";
 	}
 	
+	double getTotal(List<OrderItem> orderItems) {
+		return OrderItemListView.listOrderItems(orderItems);
+	}
+	
 	public double view(int orderId) {	
 		/*
 		 * first list all items in the order 
@@ -130,7 +137,7 @@ public class OrdersMenuController implements MenuController {
 		double total = 0;
 		try {
 			List<OrderItem> orderItems = orderItemService.listOrderItems(orderId);
-	        total = OrderItemListView.listOrderItems(orderItems);
+	        total = getTotal(orderItems);
             setTotal(total, orderId);
 	        if(!orderItems.isEmpty())
 	        	update();
@@ -199,7 +206,7 @@ public class OrdersMenuController implements MenuController {
 				return "complete";
 			} else {
 				try {
-					itemId = Utils.convertStringToInt(select); // exception if we insert a String instead a number
+					itemId = convertStringToInt(select); // exception if we insert a String instead a number
 					item = orderItemService.select(itemId, orderId);
 					flag = false;
 		        } catch (NumberFormatException e ) {

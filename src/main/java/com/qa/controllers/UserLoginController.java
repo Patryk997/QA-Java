@@ -1,6 +1,7 @@
 package com.qa.controllers;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -10,7 +11,7 @@ import com.qa.persistence.service.CustomerService;
 import com.qa.security.Authenticate;
 import com.qa.utils.Utils;
 
-public class UserLoginController implements MenuController {
+public class UserLoginController implements MenuController<Customer> {
 	
 	public static final Logger LOGGER = Logger.getLogger(UserLoginController.class);
 	
@@ -107,8 +108,9 @@ public class UserLoginController implements MenuController {
 	}
 
 	@Override
-	public void viewAll() {
+	public List<Customer> viewAll() {
 		// To further implementation - list All users
+		return null;
 	}
 
 }

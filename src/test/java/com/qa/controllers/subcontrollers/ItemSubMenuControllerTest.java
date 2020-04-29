@@ -35,11 +35,11 @@ public class ItemSubMenuControllerTest {
 	public void add() {
  
 		itemSubMenuController2 = Mockito.spy(itemSubMenuController);
-		itemSubMenuController2.add(37, 63);
-		itemSubMenuController2.add(37, 63);
-		itemSubMenuController2.add(37, 63);
+		itemSubMenuController2.add(4, 5);
+		itemSubMenuController2.add(4, 5);
+		itemSubMenuController2.add(4, 5);
 		
-		verify(itemSubMenuController2, times(3)).add(37, 63);
+		verify(itemSubMenuController2, times(3)).add(4, 5);
 	}
 	
 	@Test
@@ -47,11 +47,11 @@ public class ItemSubMenuControllerTest {
 	public void decreaseQuantity() {
  
 		itemSubMenuController2 = Mockito.spy(itemSubMenuController);
-		itemSubMenuController2.decreaseQuantity(37, 63);
-		itemSubMenuController2.decreaseQuantity(37, 63);
-		itemSubMenuController2.decreaseQuantity(37, 63);
+		itemSubMenuController2.decreaseQuantity(4, 5);
+		itemSubMenuController2.decreaseQuantity(4, 5);
+		itemSubMenuController2.decreaseQuantity(4, 5);
 		
-		verify(itemSubMenuController2, times(3)).decreaseQuantity(37, 63);
+		verify(itemSubMenuController2, times(3)).decreaseQuantity(4, 5);
 	}
 	
 	@Test
@@ -94,6 +94,7 @@ public class ItemSubMenuControllerTest {
 	}
 	
 	@Test
+	//@Ignore
 	public void selectById() throws SQLException {
 		ItemsMenuController itemsMenuController = mock(ItemsMenuController.class);
 		ItemsService itemsService = mock(ItemsService.class);
@@ -101,8 +102,8 @@ public class ItemSubMenuControllerTest {
 		itemSubMenuController.setService(itemsService);
 		itemSubMenuController2 = Mockito.spy(itemSubMenuController);
 		
-		Item item = new Item(2, "Blouse", 59.99);
-		Item other = itemSubMenuController2.selectById(2);
+		Item item = new Item(5, "Pullover", 39.99);
+		Item other = itemSubMenuController2.selectById(5);
 		assertTrue(item.equals(other));
 	}
 	

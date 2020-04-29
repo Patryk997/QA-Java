@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -32,6 +33,7 @@ public class OrderSubControllerTest {
 	}
 	
 	@Test
+	//@Ignore
 	public void deleteOrderFromSystem() {
 		OrderService orderService = mock(OrderService.class);
 		orderSubMenuController.setService(orderService);
@@ -43,6 +45,7 @@ public class OrderSubControllerTest {
 	}
 	
 	@Test
+	//@Ignore
 	public void selectById() throws SQLException {
 		OrderService orderService = mock(OrderService.class);
 		orderSubMenuController.setService(orderService);
@@ -52,15 +55,16 @@ public class OrderSubControllerTest {
 		
 		Order order = new Order();
 		
-		order.setId(67);
-		order.setTotal(101.97);
+		order.setId(3);
+		order.setTotal(259.97);
 		
-		Order order2 = orderSubMenuController2.selectById(67);
+		Order order2 = orderSubMenuController2.selectById(3);
 		System.out.println(order2.getPlaced().toString());
-		assertTrue(order.equals(orderSubMenuController2.selectById(67)));
+		assertTrue(order.equals(orderSubMenuController2.selectById(3)));
 	}
 	
 	@Test
+	//@Ignore
 	public void selectSubMenu() throws SQLException {
 		OrdersMenuController itemsMenuController = mock(OrdersMenuController.class);
 

@@ -1,8 +1,9 @@
 package com.qa.controllers;
 
+import java.util.List;
 
-public interface MenuController {
+public interface MenuController<T> {
  
 	String selectMenuOptions();
-	void viewAll();
+	List<T> viewAll();
 }

@@ -58,6 +58,7 @@ public class Authenticate {
 		return true;
 	}
 	
+	
 	public static boolean isAuthenticated() {	
 		int auth = SessionHashMap.getSessionHashMap().get("authenticated");
 		if(auth > 0)

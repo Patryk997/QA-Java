@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -30,27 +31,28 @@ public class CustomerServiceTest {
 		customerService = new CustomerService();
 	}
 	
-
+ 
 	@Test
+	//@Ignore
 	public void customerCRUD() throws SQLException {
 		
-		Customer customer = new Customer("Tony");
+		Customer customer = new Customer("Simon");
 		
 		final int id = customerService.create(customer);
 		Customer other = customerService.select(id);
 		assertEquals(Integer.valueOf(id), other.getId());
 		
 		
-		Customer toUpdate = new Customer(id, "Tony Robins");
+		Customer toUpdate = new Customer(id, "Simon Robins");
 		boolean updated = customerService.update(toUpdate);
 		Customer updatedOne = customerService.select(id);
-		assertEquals("Tony Robins", updatedOne.getName());
+		assertEquals("Simon Robins", updatedOne.getName());
 		
 		
 		List<Customer> customers = customerService.selectAll();
 		Customer first = customers.get(0);
-		assertEquals("Freddy", first.getName());
-		assertTrue(customers.size() > 30);
+		assertEquals("Tony Robins", first.getName());
+		assertTrue(customers.size() < 30);
 		
 		boolean toDelete = customerService.delete(id);
 		Customer checkIfDeleted = customerService.select(id);

@@ -8,6 +8,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class OrderItemTest {
@@ -45,6 +46,7 @@ public class OrderItemTest {
 	}
 	
 	@Test
+
 	public void equalsWithNewObject() {
 		assertFalse(orderItem.equals(new Object()));
 	}

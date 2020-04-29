@@ -25,6 +25,7 @@ public class ScannerHashMap  {
 			scannerHashMap = new ScannerHashMap();
 		return scannerHashMap;
 	}
+	
 
 	public ScannerHashMap() {
 		scannerMap = new HashMap<String, MenuController>();

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.qa.models.Customer;
@@ -22,14 +23,15 @@ public class OrderServiceTest {
 	@Before
 	public void setUp() {
 		orderService = new OrderService();
-	}
+	}  
 	
 	@Test
+	//@Ignore
 	public void OrderCRUD() throws SQLException {
 		
 		Customer customer = new Customer("Jazz");
 		Order order = new Order();
-		order.setCustomerId(16);
+		order.setCustomerId(3);
 		final int id = orderService.create(order);
 		Order other = orderService.select(id);
 		assertEquals(Integer.valueOf(id), other.getId());
@@ -40,15 +42,15 @@ public class OrderServiceTest {
 		assertTrue(updatedOne.isPaid());
 		
 		List<Order> orders = orderService.selectAll();
-		Customer fourth = orders.get(0).getCustomer();
-		String name = "Freddy";
-		String customerName = fourth.getName();
+		Customer first = orders.get(0).getCustomer();
+		String name = "Tony Robins";
+		String customerName = first.getName();
 		System.out.println(customerName);
 		assertTrue(name.equals(customerName));
 		
 		boolean toDelete = orderService.delete(id);
 		Order checkIfDeleted = orderService.select(id);
-		assertNull(checkIfDeleted);
+		assertNull(checkIfDeleted); 
 	}
 	
 	

@@ -17,13 +17,9 @@ import com.qa.main.ScannerHashMap;
 @RunWith(MockitoJUnitRunner.class)
 public class MainControllerTest {
 	
-	
-	
-	//@Spy // for the methods in customerController
-	//@InjectMocks // for any classes our customerController calls (in this case customerService)
-	//public MainController mainController;
-	
+
 	@Test
+	//@Ignore
 	public void selectMenuOptions() {
 
 		MainController mainController = new MainController();
@@ -37,6 +33,7 @@ public class MainControllerTest {
 	}
 	
 	@Test
+	//@Ignore
 	public void testMock() {
 		
 		//MainController mainController1 = mock(MainController.class);

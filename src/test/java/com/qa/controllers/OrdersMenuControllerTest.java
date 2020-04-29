@@ -1,7 +1,11 @@
 package com.qa.controllers;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -11,6 +15,7 @@ import org.mockito.Mockito;
 import com.qa.main.ScannerHashMap;
 import com.qa.main.SessionHashMap;
 import com.qa.models.Item;
+import com.qa.models.OrderItem;
 import com.qa.persistence.service.ItemsService;
 import com.qa.persistence.service.OrderService;
 import com.qa.persistence.service.other.OrderItemService;
@@ -54,8 +59,16 @@ public class OrdersMenuControllerTest {
 	@Test
 	//@Ignore
 	public void view() {
+
+		Mockito.doReturn(99.99).when(ordersController2).getTotal(anyListOf(OrderItem.class));
+		Mockito.doReturn("ok").when(ordersController2).selectMenuOptions();
 		Mockito.doReturn("updated").when(ordersController2).update();
-		assertEquals(419.94, ordersController2.view(25), 0.01);
+		assertEquals(99.99, ordersController2.view(25), 0.01);
+	}
+	
+	@Test
+	public void viewAll() {
+		
 	}
 	
 	@Test
@@ -68,6 +81,7 @@ public class OrdersMenuControllerTest {
 		Mockito.doReturn(id).doReturn(next).when(ordersController2).getInput();
 		Mockito.doReturn(20).when(ordersController2).getOrderId();
 		Mockito.doReturn(2).when(ordersController2).convertStringToInt("2");
+		Mockito.doReturn(22.22).when(ordersController2).view(anyInt());
 		Mockito.doReturn("view").when(ordersController2).orderItemDetailView(new Item(2, "Blouse", 59.99));
 		Mockito.doNothing().when(ordersController2).delete(2, 20);
 		
@@ -76,6 +90,7 @@ public class OrdersMenuControllerTest {
 	}
 	
 	@Test
+	//@Ignore
 	public void completeOrder() {
 		
 		ordersController = new OrdersMenuController(new OrderItemService());
@@ -87,10 +102,10 @@ public class OrdersMenuControllerTest {
 		Mockito.doReturn(0).when(ordersController2).getDefault();
 		Mockito.doNothing().when(ordersController2).setService(new OrderService());
 		Mockito.doNothing().when(ordersController2).setMenu(CustomersMenuController.getCustomerMenu());
-		Mockito.doReturn(16).when(ordersController2).getCustomerId();
+		Mockito.doReturn(1).when(ordersController2).getCustomerId();
 		Mockito.doNothing().when(ordersController2).putNewOrderId(222);
 		Mockito.doReturn("selected").when(ordersController2).selectMenuOptions();
-		assertEquals("completed", ordersController2.completeOrder(true, 20));
+		assertEquals("completed", ordersController2.completeOrder(true, 9));
 		
 	}
 

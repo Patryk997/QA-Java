@@ -1,6 +1,7 @@
 package com.qa.controllers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,6 +28,7 @@ public class CustomersMenuController implements MenuController {
 	public void setMenu(MenuController menu) {
 		this.menu = menu;
 	}
+	
 	
 	public void setSubMenu(SubMenuController subMenu) {
 		this.subMenu = subMenu;
@@ -55,37 +57,45 @@ public class CustomersMenuController implements MenuController {
 	}
 	
 	@Override
-	public void viewAll() {
+	public List<Customer> viewAll() {
 		/*
 		 * lists all items available in the system
 		 * */
+		List<Customer> customers = new ArrayList<Customer>();
 		setMenu(CustomersMenuController.getCustomerMenu());
-		if(!Authenticate.isAuthenticated()) {
+		setSubMenu(CustomerSubMenuController.getCustomerSubMenu());
+		if(!isAuthenticated()) {
 			LOGGER.info("** Not Authorized **");
-			getCustomerMenu().selectMenuOptions();
+			menu.selectMenuOptions();
 		} else {
 			try {
-				List<Customer> customers = service.selectAll();
+				customers = service.selectAll();
 				CustomerListView.listAllCustomers(customers);
-				subMenu = CustomerSubMenuController.getCustomerSubMenu();
 				subMenu.selectSubMenu();
 	
 			} catch (SQLException e) {
 				e.printStackTrace();
-				getCustomerMenu().selectMenuOptions();
+				menu.selectMenuOptions();
 			}
 		}
+		return customers;
 	}
 	
-	public void update() {
+	int getCustomerId() {
+		return SessionHashMap.getSessionHashMap().get("customerId");
+	}
+	
+
+	
+	public String update() { 
 		setMenu(CustomersMenuController.getCustomerMenu());
 		setService(new CustomerService());
 		boolean flag = true;
 		String name = "";
-		int customerId = SessionHashMap.getSessionHashMap().get("customerId");
+		int customerId = getCustomerId();
 		while(flag) {
 			LOGGER.info("Give a new name: | or select 'back' to return ");
-			name = Utils.getInput();
+			name = getInput();
 			if(name.equals("back")) {
 				flag = false;
 				menu.selectMenuOptions();
@@ -105,6 +115,7 @@ public class CustomersMenuController implements MenuController {
 			}
 
 		}
+		return "updated";
 	}
 	
 	public String getInput() {

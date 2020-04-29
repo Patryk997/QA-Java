@@ -3,6 +3,7 @@ package com.qa.controllers;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -33,18 +34,20 @@ public class ItemsMenuControllerTest {
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void selectMenuOptions() {
+		
+		List<Item> items = Arrays.asList(new Item("item", 33.33), new Item("item2", 44.44));
 
 		Mockito.doReturn(true).when(itemsController2).isAuthenticated();
 		Mockito.doReturn("1").when(itemsController2).getInput();
-		Mockito.doNothing().when(itemsController2).viewAll();
+		Mockito.doReturn(items).when(itemsController2).viewAll();
 
 		assertEquals("selected", itemsController2.selectMenuOptions());
 	}
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void add() {
 		Mockito.doReturn(true).when(itemsController2).isAuthenticated();
 		Mockito.doReturn("Pullover").doReturn("39.99").when(itemsController2).getInput();

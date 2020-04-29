@@ -52,13 +52,15 @@ public class CustomerSubMenuControllerTest {
 	}
 	
 	@Test
+	//@Ignore
 	public void selectById() {
-		Customer customer = customerService.select(8);
-		Customer other = new Customer(8, "Freddy");
+		Customer customer = customerService.select(5);
+		Customer other = new Customer(5, "Admin");
 		assertEquals(true, customer.equals(other));
 	}
 	
 	@Test
+	//@Ignore
 	public void selectSubMenu() throws SQLException {
 
 		when(menu2.selectMenuOptions()).thenReturn("ok");
@@ -74,6 +76,7 @@ public class CustomerSubMenuControllerTest {
 	}
 	
 	@Test
+	//@Ignore
 	public void deleteCustomerFromSystem() {
 		
 		Mockito.doReturn(8).when(customerSubController2).getCustomerId();

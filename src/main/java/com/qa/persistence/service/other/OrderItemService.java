@@ -26,10 +26,10 @@ public class OrderItemService  {
 	
 	public int decreaseQuantity(OrderItem orderItem) throws SQLException {
 		return orderItemDAO.decreaseQuantity(orderItem);
-	}
+	} 
 	
 	public List<OrderItem> listOrderItems(int orderId) throws SQLException {
-		return orderItemDAO.listOrderItems(orderId);
+		return orderItemDAO.listOrderItems(orderId);  
 	}
 	
 	public Item select(int itemId, int orderId) throws SQLException {

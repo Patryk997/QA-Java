@@ -1,6 +1,7 @@
 package com.qa.controllers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -48,12 +49,13 @@ public class ItemsMenuController implements MenuController {
 	}
 	
 	@Override
-	public void viewAll() {
+	public List<Item> viewAll() {
 		/*
 		 * lists all items available in the system
 		 * */
+		List<Item> items = new ArrayList<Item>();
 		try {
-			List<Item> items = service.selectAll();
+			items = service.selectAll();
 	        ItemsListView.listAllItems(items);
 	        setSubMenu(ItemSubMenuController.getItemsSubMenu());
 			subMenu.selectSubMenu(); 
@@ -62,6 +64,7 @@ public class ItemsMenuController implements MenuController {
         	e.printStackTrace();
         	selectMenuOptions();
         }
+		return items;
 	}
 	
 	public String add() {
