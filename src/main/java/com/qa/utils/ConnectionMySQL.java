@@ -10,10 +10,9 @@ public class ConnectionMySQL {
 	
 	private static Connection connection;
 	
-	private static final String jdbcURL = "jdbc:mysql://34.89.125.175/inventory?user=root&password=root";
+	//private static final String jdbcURL = "jdbc:mysql://34.89.125.175/inventory?user=root&password=root";
 	//private static final String jdbcURL = "jdbc:mysql://35.197.207.145/inventory?user=root&password=root";
-	//private static final String jdbcURL = "jdbc:mysql://10.92.48.3/inventory?user=root&password=root";
-	
+	private static final String jdbcURL = "jdbc:mysql://10.92.48.5/inventory?user=root&password=root";
 	
 	public static Connection getConnection() {
 		
