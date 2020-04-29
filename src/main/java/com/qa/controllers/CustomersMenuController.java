@@ -17,7 +17,7 @@ import com.qa.utils.Utils;
 import com.qa.views.customer.CustomerListView;
 
 public class CustomersMenuController implements MenuController {
-	
+	 
 	public static final Logger LOGGER = Logger.getLogger(CustomersMenuController.class);
 
 	private MenuController menu;

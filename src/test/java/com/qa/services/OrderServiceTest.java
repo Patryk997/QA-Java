@@ -40,9 +40,10 @@ public class OrderServiceTest {
 		assertTrue(updatedOne.isPaid());
 		
 		List<Order> orders = orderService.selectAll();
-		Customer fourth = orders.get(4).getCustomer();
-		String name = "Ericco";
+		Customer fourth = orders.get(0).getCustomer();
+		String name = "Freddy";
 		String customerName = fourth.getName();
+		System.out.println(customerName);
 		assertTrue(name.equals(customerName));
 		
 		boolean toDelete = orderService.delete(id);

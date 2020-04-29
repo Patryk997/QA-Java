@@ -13,6 +13,7 @@ import com.qa.controllers.MenuController;
 
 import com.qa.main.SessionHashMap;
 import com.qa.models.Item;
+import com.qa.models.OrderItem;
 import com.qa.persistence.service.CrudService;
 import com.qa.persistence.service.ItemsService;
 import com.qa.persistence.service.other.OrderItemService;
@@ -53,7 +54,8 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	
 	public void add(int index, int orderId) {
 		try {
-			orderItemService.addItem(index, orderId);
+			OrderItem orderItem = new OrderItem(index, orderId);
+			orderItemService.create(orderItem);
 			LOGGER.info("** Item added **");
 		} catch (SQLException e) {
 			LOGGER.info("Sorry, a problem occured, try again later");
@@ -63,7 +65,8 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	
 	public void decreaseQuantity(int index, int orderId) {
 		try {
-			orderItemService.decreaseQuantity(index, orderId);
+			OrderItem orderItem = new OrderItem(index, orderId);
+			orderItemService.decreaseQuantity(orderItem);
 			LOGGER.info("** Item deleted **");
 		} catch (SQLException e) {
 			LOGGER.info("Sorry, a problem occured, try again later");
