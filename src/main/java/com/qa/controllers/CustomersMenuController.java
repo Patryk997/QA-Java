@@ -11,7 +11,7 @@ import com.qa.controllers.subcontrollers.CustomerSubMenuController;
 import com.qa.controllers.subcontrollers.SubMenuController;
 import com.qa.main.SessionHashMap;
 import com.qa.models.Customer;
-import com.qa.persistence.service.Service;
+import com.qa.persistence.service.CrudService;
 import com.qa.persistence.service.CustomerService;
 import com.qa.security.Authenticate;
 import com.qa.utils.Utils;
@@ -23,7 +23,7 @@ public class CustomersMenuController implements MenuController {
 
 	private MenuController menu;
 	private SubMenuController subMenu;
-	private Service service;
+	private CrudService service;
 	
 	public void setMenu(MenuController menu) {
 		this.menu = menu;
@@ -34,7 +34,7 @@ public class CustomersMenuController implements MenuController {
 		this.subMenu = subMenu;
 	}
 	
-	public void setService(Service service) {
+	public void setService(CrudService service) {
 		this.service = service;
 	}
 	
@@ -42,7 +42,7 @@ public class CustomersMenuController implements MenuController {
 	
     public static CustomersMenuController customerMenu;
     
-    public CustomersMenuController(Service service) {
+    public CustomersMenuController(CrudService service) {
     	this.service = service;
 	}
     

@@ -13,12 +13,12 @@ import org.junit.Test;
 
 import com.qa.models.Customer;
 import com.qa.models.Order;
-import com.qa.persistence.service.Service;
+import com.qa.persistence.service.CrudService;
 import com.qa.persistence.service.OrderService;
 
 public class OrderServiceTest {
 	
-	Service<Order> orderService;
+	CrudService<Order> orderService;
 	
 	@Before
 	public void setUp() {

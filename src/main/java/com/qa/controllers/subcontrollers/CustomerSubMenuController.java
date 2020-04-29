@@ -8,7 +8,7 @@ import com.qa.controllers.CustomersMenuController;
 import com.qa.controllers.MenuController;
 import com.qa.main.SessionHashMap;
 import com.qa.models.Customer;
-import com.qa.persistence.service.Service;
+import com.qa.persistence.service.CrudService;
 import com.qa.persistence.service.CustomerService;
 import com.qa.persistence.service.other.OrderItemService;
 import com.qa.utils.Utils;
@@ -18,14 +18,14 @@ public class CustomerSubMenuController implements SubMenuController<Customer> {
 	public static final Logger LOGGER = Logger.getLogger(CustomerSubMenuController.class);
 	
 	MenuController menu;
-	Service service; 
+	CrudService service; 
 	OrderItemService orderItemService;
 	
 	public void setMenu(MenuController menu) {
 		this.menu = menu;
 	}
 	
-	public void setService(Service service) {
+	public void setService(CrudService service) {
 		this.service = service;
 	}
 	

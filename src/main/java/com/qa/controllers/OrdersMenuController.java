@@ -12,7 +12,7 @@ import com.qa.main.SessionHashMap;
 import com.qa.models.Item;
 import com.qa.models.Order;
 import com.qa.models.OrderItem;
-import com.qa.persistence.service.Service;
+import com.qa.persistence.service.CrudService;
 import com.qa.persistence.service.OrderService;
 import com.qa.persistence.service.other.OrderItemService;
 import com.qa.security.Authenticate;
@@ -29,7 +29,7 @@ public class OrdersMenuController implements MenuController {
 
 	private MenuController menu;
 	private SubMenuController subMenu;
-	private Service service;
+	private CrudService service;
 	
 	public void setMenu(MenuController menu) {
 		this.menu = menu;
@@ -39,7 +39,7 @@ public class OrdersMenuController implements MenuController {
 		this.subMenu = subMenu;
 	}
 	
-	public void setService(Service service) {
+	public void setService(CrudService service) {
 		this.service = service;
 	}
 	

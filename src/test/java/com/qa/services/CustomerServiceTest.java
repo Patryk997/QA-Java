@@ -19,12 +19,12 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 import com.qa.models.Customer;
-import com.qa.persistence.service.Service;
+import com.qa.persistence.service.CrudService;
 import com.qa.persistence.service.CustomerService;
 
 public class CustomerServiceTest {
 	
-	Service<Customer> customerService;
+	CrudService<Customer> customerService;
 	
 	@Before
 	public void setUp() {
