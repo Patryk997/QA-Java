@@ -10,10 +10,11 @@ import com.qa.models.OrderItem;
 
 public interface OrderItemDAO {
 	
-	int addItem(int itemId, int orderId) throws SQLException;
-	int decreaseQuantity(int itemId, int orderId) throws SQLException;
+	int create(OrderItem orderItem) throws SQLException;
+	Item select(int itemId, int orderId) throws SQLException;
+
+	int decreaseQuantity(OrderItem orderItem) throws SQLException;
 	List<OrderItem> listOrderItems(int orderId) throws SQLException;
-	Item selectOrderItem(int itemId, int orderId) throws SQLException;
 	int delete(int itemId, int orderId) throws SQLException;
 	boolean setTotal(double total, int orderId);
 

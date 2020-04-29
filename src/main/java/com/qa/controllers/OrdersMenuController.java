@@ -147,8 +147,7 @@ public class OrdersMenuController implements MenuController {
 		return orderItemService.setTotal(total, orderId); 
 	}
 	
-	
-	
+
 	public String getInput() {
 		return Utils.getInput();
 	}
@@ -201,7 +200,7 @@ public class OrdersMenuController implements MenuController {
 			} else {
 				try {
 					itemId = Utils.convertStringToInt(select); // exception if we insert a String instead a number
-					item = orderItemService.selectOrderItem(itemId, orderId);
+					item = orderItemService.select(itemId, orderId);
 					flag = false;
 		        } catch (NumberFormatException e ) {
 		        	LOGGER.warn("select correct product ID");   

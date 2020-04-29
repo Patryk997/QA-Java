@@ -19,6 +19,13 @@ public class OrderItem {
 		this.quantity = quantity;
 	}
 	
+	public OrderItem(Integer itemId, Integer orderId) {
+		this.itemId = itemId;
+		this.orderId = orderId;
+	}
+	
+	
+	
 	public Integer getOrderItemId() {
 		return orderItemId;
 	}

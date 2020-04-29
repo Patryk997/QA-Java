@@ -16,20 +16,24 @@ public class OrderItemService  {
 		orderItemDAO = new OrderItemDAOImpl();
 	}
 	
-	public int addItem(int itemId, int orderId) throws SQLException {
-		return orderItemDAO.addItem(itemId, orderId);
-	}
+//	public int addItem(int itemId, int orderId) throws SQLException {
+//		return orderItemDAO.addItem(itemId, orderId);
+//	}
 	
-	public int decreaseQuantity(int itemId, int orderId) throws SQLException {
-		return orderItemDAO.decreaseQuantity(itemId, orderId);
+	public int create(OrderItem orderItem) throws SQLException {
+		return orderItemDAO.create(orderItem);
+} 
+	
+	public int decreaseQuantity(OrderItem orderItem) throws SQLException {
+		return orderItemDAO.decreaseQuantity(orderItem);
 	}
 	
 	public List<OrderItem> listOrderItems(int orderId) throws SQLException {
 		return orderItemDAO.listOrderItems(orderId);
 	}
 	
-	public Item selectOrderItem(int itemId, int orderId) throws SQLException {
-		return orderItemDAO.selectOrderItem(itemId, orderId);
+	public Item select(int itemId, int orderId) throws SQLException {
+		return orderItemDAO.select(itemId, orderId);
 	}
 	
 	public int delete(int itemId, int orderId) throws SQLException  {

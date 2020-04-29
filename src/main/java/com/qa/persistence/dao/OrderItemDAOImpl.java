@@ -31,7 +31,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 			"JOIN Order_Item ot ON i.Item_ID = ot.FK_Item_ID WHERE ot.FK_Order_ID = ?;";
 	
 	private static final String SELECT_ORDER_ITEM_SQL  = "SELECT i.value, i.name from Item as i " + 
-			"JOIN Order_Item ot ON i.Item_ID = ot.FK_Item_ID WHERE ot.FK_Item_ID = ? AND ot.FK_Order_ID = ?;";
+			"INNER JOIN Order_Item ot ON i.Item_ID = ot.FK_Item_ID WHERE ot.FK_Item_ID = ? AND ot.FK_Order_ID = ?;";
 	
 	private static final String DELETE_ORDER_ITEM_SQL = "DELETE from Order_Item WHERE FK_Item_ID = ? AND FK_Order_ID = ?;";
 	
@@ -40,7 +40,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 	
 	
 	@Override
-	public int addItem(int itemId, int orderId) {
+	public int create(OrderItem orderItem) {
 		int rowSelected = 0;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -48,8 +48,8 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 		try {
 			connection = ConnectionMySQL.getConnection();
 			preparedStatement = connection.prepareStatement(SELECT_ITEM_SQL);
-			preparedStatement.setInt(1, itemId);
-			preparedStatement.setInt(2, orderId);
+			preparedStatement.setInt(1, orderItem.getItemId());
+			preparedStatement.setInt(2, orderItem.getOrderId());
 			rs = preparedStatement.executeQuery();
 
 			if (rs.next()) {
@@ -61,8 +61,8 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 				
 				try {
 					preparedStatement = connection.prepareStatement(ADD_ITEM_SQL);
-					preparedStatement.setInt(1, itemId);
-					preparedStatement.setInt(2, orderId);
+					preparedStatement.setInt(1, orderItem.getItemId());
+					preparedStatement.setInt(2, orderItem.getOrderId());
 					preparedStatement.executeUpdate();
 
 				} catch (SQLException e) {
@@ -72,8 +72,8 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 			} else {
 				try {
 					preparedStatement = connection.prepareStatement(INCREASE_ITEM_QUANTITY_SQL);
-					preparedStatement.setInt(1, itemId);
-					preparedStatement.setInt(2, orderId);	
+					preparedStatement.setInt(1, orderItem.getItemId());
+					preparedStatement.setInt(2, orderItem.getOrderId());	
 					preparedStatement.executeUpdate();
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -92,15 +92,15 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 	}
 
 	@Override
-	public int decreaseQuantity(int itemId, int orderId) {
+	public int decreaseQuantity(OrderItem orderItem) {
 		int rowUpdated = 0;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
 			connection = ConnectionMySQL.getConnection();
 			preparedStatement = connection.prepareStatement(DECREASE_ITEM_QUANTITY_SQL);
-			preparedStatement.setInt(1, itemId);
-			preparedStatement.setInt(2, orderId);
+			preparedStatement.setInt(1, orderItem.getItemId());
+			preparedStatement.setInt(2, orderItem.getOrderId());
 			rowUpdated = preparedStatement.executeUpdate();
 			
 		} catch(SQLException e) {
@@ -146,7 +146,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 	}
 
 	@Override
-	public Item selectOrderItem(int itemId, int orderId) throws SQLException {
+	public Item select(int itemId, int orderId) throws SQLException { 
 		Item item = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
