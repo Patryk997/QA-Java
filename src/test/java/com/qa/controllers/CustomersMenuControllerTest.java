@@ -51,11 +51,13 @@ public class CustomersMenuControllerTest {
 	public void selectMenuOptions() { 
 		
 		CustomerService service = mock(CustomerService.class);
-		CustomersMenuController customerController = new CustomersMenuController(service);
-		
+		CustomersMenuController customerController = new CustomersMenuController(service);	
 		CustomersMenuController customerController2 = Mockito.spy(customerController);
+		
 		Mockito.doReturn(true).when(customerController2).isAuthenticated();
+		
 		Mockito.doReturn("1").when(customerController2).getInput();
+		
 		Mockito.doReturn("ok").when(customerController2).update(); 
 
 		assertEquals("selected", customerController2.selectMenuOptions());

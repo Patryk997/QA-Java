@@ -11,7 +11,7 @@ public class OrderItem {
 	private Integer orderItemId;
 	private Integer itemId;
 	private Integer orderId;
-	private Integer quantity;
+	private Integer quantity; 
 	private Item item;
 	
 	public OrderItem(Item item, Integer quantity) {

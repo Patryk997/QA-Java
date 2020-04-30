@@ -33,7 +33,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 			preparedStatement.executeUpdate(); 
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 			if (rs.next()) {
-			    rowInserted = rs.getInt(1);
+			    rowInserted = rs.getInt(1);  
 			} 
 			
 		} catch (Exception e) {

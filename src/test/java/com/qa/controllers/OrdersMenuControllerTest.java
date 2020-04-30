@@ -35,8 +35,8 @@ public class OrdersMenuControllerTest {
 	
 	@Before
 	public void setUp() {
-		
-		ConnectionMySQL.setTestable(true);
+		 
+		ConnectionMySQL.setTestable(true); 
 
 		//orderService = new OrderService();
 		orderService = mock(OrderService.class);
