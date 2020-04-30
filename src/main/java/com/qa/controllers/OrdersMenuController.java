@@ -8,14 +8,14 @@ import org.apache.log4j.Logger;
 
 import com.qa.controllers.subcontrollers.OrderSubMenuController;
 import com.qa.controllers.subcontrollers.SubMenuController;
+import com.qa.dto.Item;
+import com.qa.dto.Order;
+import com.qa.dto.OrderItem;
 import com.qa.main.SessionHashMap;
-import com.qa.models.Item;
-import com.qa.models.Order;
-import com.qa.models.OrderItem;
-import com.qa.persistence.service.CrudService;
-import com.qa.persistence.service.OrderService;
-import com.qa.persistence.service.other.OrderItemService;
 import com.qa.security.Authenticate;
+import com.qa.services.CrudService;
+import com.qa.services.OrderService;
+import com.qa.services.other.OrderItemService;
 import com.qa.utils.Utils;
 import com.qa.views.order.OrdersListView;
 import com.qa.views.orderItem.OrderItemDetailsView;
@@ -36,7 +36,7 @@ public class OrdersMenuController implements MenuController {
 	}
 	
 	public void setSubMenu(SubMenuController subMenu) {
-		this.subMenu = subMenu;
+		this.subMenu = subMenu; 
 	}
 	
 	public void setService(CrudService service) {

@@ -2,6 +2,7 @@ package com.qa.controllers.subcontrollers;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -14,9 +15,10 @@ import java.sql.SQLException;
 
 import com.qa.controllers.CustomersMenuController;
 import com.qa.controllers.MenuController;
-import com.qa.models.Customer;
-import com.qa.persistence.service.CustomerService;
-import com.qa.persistence.service.other.OrderItemService;
+import com.qa.dto.Customer;
+import com.qa.services.CustomerService;
+import com.qa.services.other.OrderItemService;
+import com.qa.utils.ConnectionMySQL;
 
 
 public class CustomerSubMenuControllerTest {
@@ -37,6 +39,9 @@ public class CustomerSubMenuControllerTest {
 	
 	@Before
 	public void setUp() {
+		
+		ConnectionMySQL.setTestable(true);
+		
 		customerService = new CustomerService();
 		customerController = new CustomersMenuController();
 		customerController2 = Mockito.spy(customerController);
@@ -84,6 +89,11 @@ public class CustomerSubMenuControllerTest {
 		
 		customerSubController2.deleteCustomerFromSystem(8);
 		verify(customerSubController2, times(1)).deleteCustomerFromSystem(8);
+	}
+	
+	@After
+	public void onFinish() {
+		ConnectionMySQL.closeConnection();
 	}
 	
 

@@ -14,15 +14,15 @@ public class MainController {
 	public static MainController menuMain;
 	MenuController menu;
 	
-	public static MainController getMainMenu() {
+	public static MainController getMainMenu() { 
 		if(menuMain == null) {
-			menuMain = new MainController();
+			menuMain = new MainController(); 
 		}
 		return menuMain;
 	}
-	
+	 
 	public String getInput() {
-		return Utils.getInput().toLowerCase();
+		return Utils.getInput().toLowerCase(); 
 	}
 	
 	public boolean getScannerMap(ScannerHashMap map, String option) {
@@ -31,7 +31,7 @@ public class MainController {
 			menu.selectMenuOptions();
 			return true;
 		}
-		//return scannerMap.getScannerMap().containsKey(option); 
+		//return scannerMap.getScannerMap().containsKey(option);  
 		return false;
 	}
     
@@ -39,15 +39,15 @@ public class MainController {
         boolean flag = true;
         scannerMap = ScannerHashMap.getScannerHashMap();
         String option = "";
-        System.out.println("pizdaa");
+        LOGGER.info("Choose: items [1] customers [2] orders [3] admin [4]");
 	    while(flag) {
-			LOGGER.info("Choose: items [1] customers [2] orders [3] admin [4]");
-			option = getInput();
 			
-			if (option.equals("exit")) {
-				exit = true;
-				return "return";
+			try {
+				option = getInput();
+			} catch (IllegalStateException e) {
+				LOGGER.info("Sorry, Scanner closed. Run again");
 			}
+			
 			
 			if(getScannerMap(scannerMap, option)) {
 				//menu = scannerMap.getScannerMap().get(option);
@@ -57,21 +57,10 @@ public class MainController {
 	        	LOGGER.warn("Wrong option");
 	      	
 	        }
-	                
-//	        if(scannerMap.getScannerMap().containsKey(option)) {
-//			   menu = scannerMap.getScannerMap().get(option);
-//			   flag = false;
-//			   menu.selectMenuOptions();
-//	        } else {
-//	        	LOGGER.warn("Wrong option");
-//	        }
+
         } // end of while loop
 	    return option;
 
 	}
-	
-	public String testMock() {
-		String option = getInput();
-		return option;
-	}
+
 }

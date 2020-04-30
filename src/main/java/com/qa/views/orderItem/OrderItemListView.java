@@ -3,7 +3,7 @@ package com.qa.views.orderItem;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.qa.models.OrderItem;
+import com.qa.dto.OrderItem;
 import com.qa.utils.Utils;
 
 

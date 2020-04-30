@@ -7,18 +7,20 @@ import static org.mockito.Mockito.mock;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.qa.dto.Item;
+import com.qa.dto.OrderItem;
 import com.qa.main.ScannerHashMap;
 import com.qa.main.SessionHashMap;
-import com.qa.models.Item;
-import com.qa.models.OrderItem;
-import com.qa.persistence.service.ItemsService;
-import com.qa.persistence.service.OrderService;
-import com.qa.persistence.service.other.OrderItemService;
+import com.qa.services.ItemsService;
+import com.qa.services.OrderService;
+import com.qa.services.other.OrderItemService;
+import com.qa.utils.ConnectionMySQL;
 
 public class OrdersMenuControllerTest {
 	
@@ -33,6 +35,8 @@ public class OrdersMenuControllerTest {
 	
 	@Before
 	public void setUp() {
+		
+		ConnectionMySQL.setTestable(true);
 
 		//orderService = new OrderService();
 		orderService = mock(OrderService.class);
@@ -66,10 +70,7 @@ public class OrdersMenuControllerTest {
 		assertEquals(99.99, ordersController2.view(25), 0.01);
 	}
 	
-	@Test
-	public void viewAll() {
-		
-	}
+	
 	
 	@Test
 	//@Ignore
@@ -107,6 +108,11 @@ public class OrdersMenuControllerTest {
 		Mockito.doReturn("selected").when(ordersController2).selectMenuOptions();
 		assertEquals("completed", ordersController2.completeOrder(true, 9));
 		
+	}
+	
+	@After
+	public void onFinish() {
+		ConnectionMySQL.closeConnection();
 	}
 
 	

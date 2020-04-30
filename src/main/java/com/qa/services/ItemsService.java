@@ -1,11 +1,11 @@
-package com.qa.persistence.service;
+package com.qa.services;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import com.qa.models.Item;
-import com.qa.persistence.dao.ItemsDAO;
-import com.qa.persistence.dao.ItemsDAOImpl;
+import com.qa.dao.ItemsDAO;
+import com.qa.dao.ItemsDAOImpl;
+import com.qa.dto.Item;
 
 public class ItemsService implements CrudService<Item> {
 	

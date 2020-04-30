@@ -1,6 +1,7 @@
 package com.qa.controllers;
 
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -23,10 +24,11 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.qa.controllers.subcontrollers.CustomerSubMenuController;
-import com.qa.models.Customer;
-import com.qa.persistence.service.CustomerService;
-import com.qa.persistence.service.ItemsService;
-import com.qa.persistence.service.other.OrderItemService;
+import com.qa.dto.Customer;
+import com.qa.services.CustomerService;
+import com.qa.services.ItemsService;
+import com.qa.services.other.OrderItemService;
+import com.qa.utils.ConnectionMySQL;
 
  
 @RunWith(MockitoJUnitRunner.class)
@@ -37,6 +39,9 @@ public class CustomersMenuControllerTest {
 	
 	@Before
 	public void setUp () {
+		
+		ConnectionMySQL.setTestable(true);
+		
 		cm = new CustomersMenuController();
 		other = new CustomersMenuController();
 	}
@@ -51,11 +56,11 @@ public class CustomersMenuControllerTest {
 		CustomersMenuController customerController2 = Mockito.spy(customerController);
 		Mockito.doReturn(true).when(customerController2).isAuthenticated();
 		Mockito.doReturn("1").when(customerController2).getInput();
-		Mockito.doReturn("ok").when(customerController2).update();
+		Mockito.doReturn("ok").when(customerController2).update(); 
 
 		assertEquals("selected", customerController2.selectMenuOptions());
 		 
-	} 
+	}  
 	
 	@Test
 	//@Ignore
@@ -78,7 +83,7 @@ public class CustomersMenuControllerTest {
 		 
 	}
 	
-	@Test
+	@Test 
 	public void update() {
 		CustomerService service = mock(CustomerService.class);
 		CustomersMenuController customerMock = mock(CustomersMenuController.class);
@@ -123,6 +128,11 @@ public class CustomersMenuControllerTest {
 		Mockito.doReturn(customers).when(service).selectAll();
 		Mockito.doReturn("ok").when(customerSubMock).selectSubMenu();
 		assertFalse(customerController2.viewAll().isEmpty());
+	}
+	
+	@After
+	public void onFinish() {
+		ConnectionMySQL.closeConnection();
 	}
 	
 

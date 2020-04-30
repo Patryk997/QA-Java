@@ -1,4 +1,4 @@
-package com.qa.persistence.dao;
+package com.qa.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,14 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qa.models.Customer;
+import com.qa.dto.Customer;
 import com.qa.utils.ConnectionMySQL;
 
 public class CustomerDAOImpl implements CustomerDAO {
 	
 	private static final String INSERT_CUSTOMERS_SQL = "INSERT INTO Customer " + "(name) VALUES " +
 	           "(?);";            
-	private static final String SELECT_CUSTOMER_BY_ID = "SELECT Customer_ID, name from Customer WHERE Customer_ID = ?";
+	private static final String SELECT_CUSTOMER_BY_ID = "SELECT Customer_ID, FK_User_ID, name from Customer WHERE Customer_ID = ?";
 	private static final String SELECT_ALL_CUSTOMERS = "SELECT * FROM Customer";
 	private static final String UPDATE_CUSTOMER_SQL = "UPDATE Customer SET name = ? WHERE Customer_ID = ?";
 	private static final String DELETE_CUSTOMER_SQL = "DELETE FROM Customer WHERE Customer_ID = ?";
@@ -30,14 +30,14 @@ public class CustomerDAOImpl implements CustomerDAO {
 			        Statement.RETURN_GENERATED_KEYS);
 			
 			preparedStatement.setString(1, customer.getName());
-			preparedStatement.executeUpdate();
+			preparedStatement.executeUpdate(); 
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 			if (rs.next()) {
 			    rowInserted = rs.getInt(1);
-			}
+			} 
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Sorry, could not execute statement");
 		}
 		return rowInserted;
 	}
@@ -52,8 +52,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 			preparedStatement.setInt(2, customer.getId());
 
 			rowUpdated = preparedStatement.executeUpdate() > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Sorry, could not execute statement");
 		}
 		return rowUpdated;
 		
@@ -70,10 +70,13 @@ public class CustomerDAOImpl implements CustomerDAO {
 			while(rs.next()) {
 				String name = rs.getString("name");
 				int customerId = rs.getInt("Customer_ID");
+				int userId = rs.getInt("FK_User_ID");
 				customer = new Customer(customerId, name);
+				customer.setUserId(userId);
+				
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Sorry, could not execute statement");
 		}
 		return customer;
 
@@ -91,8 +94,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 				String name = rs.getString("name");
 				customers.add(new Customer(id, name));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Sorry, could not execute statement");
 		}
 		return customers;
 	}
@@ -105,8 +108,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 			PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CUSTOMER_SQL);
 			preparedStatement.setInt(1, id); 
 			rowDeleted = preparedStatement.executeUpdate() > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Sorry, could not execute statement");
 		}
 	    return rowDeleted;	
 		
@@ -122,8 +125,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 			preparedStatement.setInt(2, customer.getId());
 
 			rowUpdated = preparedStatement.executeUpdate() > 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Sorry, could not execute statement");
 		}
 		return rowUpdated;
 	}

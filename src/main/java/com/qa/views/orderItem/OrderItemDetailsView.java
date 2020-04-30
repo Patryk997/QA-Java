@@ -1,7 +1,7 @@
 package com.qa.views.orderItem;
 
-import com.qa.models.Item;
-import com.qa.models.OrderItem;
+import com.qa.dto.Item;
+import com.qa.dto.OrderItem;
 
 public class OrderItemDetailsView {
 	

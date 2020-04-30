@@ -8,15 +8,12 @@ import org.apache.log4j.Logger;
 
 import com.qa.controllers.MenuController;
 import com.qa.controllers.OrdersMenuController;
-
+import com.qa.dto.Order;
 import com.qa.main.SessionHashMap;
-
-import com.qa.models.Order;
-import com.qa.persistence.service.CrudService;
-import com.qa.persistence.service.ItemsService;
-
-import com.qa.persistence.service.OrderService;
-import com.qa.persistence.service.other.OrderItemService;
+import com.qa.services.CrudService;
+import com.qa.services.ItemsService;
+import com.qa.services.OrderService;
+import com.qa.services.other.OrderItemService;
 import com.qa.utils.Utils;
 import com.qa.views.order.OrderDetailsView;
 
@@ -24,11 +21,11 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 	
 	public static final Logger LOGGER = Logger.getLogger(OrderSubMenuController.class);
 	
-	MenuController menu;
+	MenuController menu; 
 	CrudService service;
 	OrderItemService orderItemService;
 	
-	public void setMenu(MenuController menu) {
+	public void setMenu(MenuController menu) { 
 		this.menu = menu;
 	}
 	
@@ -44,7 +41,7 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 	
 	public static OrderSubMenuController getOrderSubMenu() {
 		if(orderSubMenu == null)
-			orderSubMenu = new OrderSubMenuController(new OrderItemService());
+			orderSubMenu = new OrderSubMenuController(new OrderItemService()); 
 		return orderSubMenu;	
 	}
 	
@@ -92,8 +89,8 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 		while(flag) {
 			String select = getInput();
 			if(select == "0") {
-				menu.selectMenuOptions();
 				flag = false;
+				menu.selectMenuOptions();
 				return "back";
 			}
 			
@@ -102,17 +99,16 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 				order = selectById(orderId);
 				flag = false;
 			} catch (SQLException e) {
-				e.printStackTrace();
 				LOGGER.warn("This item does not exist");
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				LOGGER.warn("Select correct product ID");
+				LOGGER.warn("Select correct order ID");
 			}
 			
 		}
 		
 		if(order == null) {
 			System.out.println("This order doesn not exist. Select order ID from the list");
+			flag = false;
 			menu.selectMenuOptions();	  // return to items list
 		} else {
 			OrderDetailsView.listOrderDetails(order);
@@ -124,12 +120,15 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 			String next = getInput();
 			switch(next) {
 			case "1":
+				flag = false;
 				deleteOrderFromSystem(orderId);	
 				
 			case "2":	
 				flag = false;
 				menu.selectMenuOptions();
 				break;
+			default:
+				LOGGER.warn("Select 1 or 2");
 			}
 		}
 

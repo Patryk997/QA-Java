@@ -1,9 +1,9 @@
-package com.qa.persistence.service;
+package com.qa.services;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import com.qa.models.Order;
+import com.qa.dto.Order;
 
 public interface CrudService<T> {
 	

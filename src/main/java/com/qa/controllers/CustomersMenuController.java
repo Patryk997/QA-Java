@@ -9,11 +9,11 @@ import org.apache.log4j.Logger;
 
 import com.qa.controllers.subcontrollers.CustomerSubMenuController;
 import com.qa.controllers.subcontrollers.SubMenuController;
+import com.qa.dto.Customer;
 import com.qa.main.SessionHashMap;
-import com.qa.models.Customer;
-import com.qa.persistence.service.CrudService;
-import com.qa.persistence.service.CustomerService;
 import com.qa.security.Authenticate;
+import com.qa.services.CrudService;
+import com.qa.services.CustomerService;
 import com.qa.utils.Utils;
 import com.qa.views.customer.CustomerListView;
 
@@ -30,7 +30,7 @@ public class CustomersMenuController implements MenuController {
 	}
 	
 	
-	public void setSubMenu(SubMenuController subMenu) {
+	public void setSubMenu(SubMenuController subMenu) { 
 		this.subMenu = subMenu;
 	}
 	
@@ -57,7 +57,7 @@ public class CustomersMenuController implements MenuController {
 	}
 	
 	@Override
-	public List<Customer> viewAll() {
+	public List<Customer> viewAll() {  
 		/*
 		 * lists all items available in the system
 		 * */

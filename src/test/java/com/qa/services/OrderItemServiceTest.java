@@ -7,15 +7,17 @@ import static org.junit.Assert.assertTrue;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.qa.models.Item;
-import com.qa.models.Order;
-import com.qa.models.OrderItem;
-import com.qa.persistence.service.OrderService;
-import com.qa.persistence.service.other.OrderItemService;
+import com.qa.dto.Item;
+import com.qa.dto.Order;
+import com.qa.dto.OrderItem;
+import com.qa.services.OrderService;
+import com.qa.services.other.OrderItemService;
+import com.qa.utils.ConnectionMySQL;
 
 public class OrderItemServiceTest {
 
@@ -23,6 +25,7 @@ public class OrderItemServiceTest {
 	
 	@Before
 	public void setUp() {
+		ConnectionMySQL.setTestable(true);
 		orderItemService = new OrderItemService();
 	}
 	
@@ -66,5 +69,10 @@ public class OrderItemServiceTest {
 		assertEquals(99.99, order.getTotal(), 0.01);
 		assertTrue(setTotal);
 			
+	}
+	
+	@After
+	public void onFinish() {
+		ConnectionMySQL.closeConnection();
 	}
 }

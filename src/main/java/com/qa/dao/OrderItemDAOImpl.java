@@ -1,4 +1,4 @@
-package com.qa.persistence.dao;
+package com.qa.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qa.models.Item;
-import com.qa.models.OrderItem;
+import com.qa.dto.Item;
+import com.qa.dto.OrderItem;
 import com.qa.utils.ConnectionMySQL;
 
 
@@ -40,7 +40,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 	
 	
 	@Override
-	public int create(OrderItem orderItem) {
+	public int create(OrderItem orderItem) {  
 		int rowSelected = 0;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -65,8 +65,8 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 					preparedStatement.setInt(2, orderItem.getOrderId());
 					preparedStatement.executeUpdate();
 
-				} catch (SQLException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					System.out.println("Sorry, could not execute the request");
 				}
 
 			} else {
@@ -75,18 +75,16 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 					preparedStatement.setInt(1, orderItem.getItemId());
 					preparedStatement.setInt(2, orderItem.getOrderId());	
 					preparedStatement.executeUpdate();
-				} catch (SQLException e) {
-					e.printStackTrace();
+				} catch (Exception e) {
+					System.out.println("Sorry, could not execute the request");
 				}
 
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Sorry, could not execute the request");
 		} finally {
-			//try { rs.close(); } catch (Exception e) { /* ignored */ }
 		    try { preparedStatement.close(); } catch (Exception e) { /* ignored */ }
-		    //try { connection.close(); } catch (Exception e) { /* ignored */ }
 		}
 		return rowSelected;
 	}
@@ -103,8 +101,8 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 			preparedStatement.setInt(2, orderItem.getOrderId());
 			rowUpdated = preparedStatement.executeUpdate();
 			
-		} catch(SQLException e) {
-			e.printStackTrace();
+		} catch(Exception e) {
+			System.out.println("Sorry, could not execute the request");
 		} finally {
 		    try { preparedStatement.close(); } catch (Exception e) { /* ignored */ }
 		    //try { connection.close(); } catch (Exception e) { /* ignored */ }
@@ -136,8 +134,8 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 			}
 
 			
-		} catch(SQLException e) {
-			e.printStackTrace();
+		} catch(Exception e) {
+			System.out.println("Sorry, could not execute the request");
 		} finally {
 		    try { preparedStatement.close(); } catch (Exception e) { /* ignored */ }
 		    //try { connection.close(); } catch (Exception e) { /* ignored */ }
@@ -165,8 +163,8 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 			}
 
 			
-		} catch(SQLException e) {
-			e.printStackTrace();
+		} catch(Exception e) {
+			System.out.println("Sorry, could not execute the request");
 		} finally {
 		    try { preparedStatement.close(); } catch (Exception e) { /* ignored */ }
 		    //try { connection.close(); } catch (Exception e) { /* ignored */ }
@@ -187,7 +185,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 		
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Sorry, could not execute the request");
 		}
 		return rowDeleted;
 	}
@@ -204,7 +202,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 			rowUpdated = true;
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Sorry, could not execute the request");
 		}
 		return rowUpdated;
 	}

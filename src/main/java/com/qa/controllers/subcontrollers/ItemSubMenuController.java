@@ -8,16 +8,13 @@ import org.apache.log4j.Logger;
 import com.qa.views.items.ItemDetailsView;
 import com.qa.controllers.ItemsMenuController;
 import com.qa.controllers.MenuController;
-
-
-
+import com.qa.dto.Item;
+import com.qa.dto.OrderItem;
 import com.qa.main.SessionHashMap;
-import com.qa.models.Item;
-import com.qa.models.OrderItem;
-import com.qa.persistence.service.CrudService;
-import com.qa.persistence.service.ItemsService;
-import com.qa.persistence.service.other.OrderItemService;
 import com.qa.security.Authenticate;
+import com.qa.services.CrudService;
+import com.qa.services.ItemsService;
+import com.qa.services.other.OrderItemService;
 import com.qa.utils.Utils;
 
 public class ItemSubMenuController implements SubMenuController<Item> { 
@@ -30,7 +27,7 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	
 	public void setMenu(MenuController menu) {
 		this.menu = menu;
-	}
+	} 
 	
 	public void setService(CrudService service) {
 		this.service = service;
@@ -85,7 +82,7 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 				LOGGER.info("Item deleted from the system");
 				menu.selectMenuOptions();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				LOGGER.info("Problem occured when deleting the item");
 			}
 		}
 	}
@@ -155,7 +152,7 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	}
 	
 	@Override
-	public String selectSubMenu() {
+	public String selectSubMenu() { 
 		int orderId = getSessionId();
 		Item item = null;
 		int itemId = -1;
@@ -166,8 +163,8 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 		while(flag) {
 			String select = getInput();
 			if(select == "0") {
-				menu.selectMenuOptions();
 				flag = false;
+				menu.selectMenuOptions();
 			}
 			
 			try {
@@ -175,10 +172,8 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 				item = selectById(itemId);
 				flag = false;
 			} catch (SQLException e) {
-				e.printStackTrace();
 				LOGGER.info("This item does not exist");
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
 				LOGGER.info("Select correct product ID");
 			}
 		}
@@ -202,7 +197,7 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 		    String next = getInput();
 			switch(next) {
 				case "1":
-					add(itemId, orderId);			
+					add(itemId, orderId);	
 					break;
 					
 				case "2":
@@ -210,7 +205,7 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 					break;
 					
 				case "3":
-					flag = false;
+					flag = false; 
 					menu.selectMenuOptions();
 					break;
 			

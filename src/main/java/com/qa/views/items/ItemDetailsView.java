@@ -1,6 +1,6 @@
 package com.qa.views.items;
 
-import com.qa.models.Item;
+import com.qa.dto.Item;
 
 public class ItemDetailsView {
 

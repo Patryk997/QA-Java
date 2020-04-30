@@ -7,21 +7,24 @@ import static org.junit.Assert.assertTrue;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.qa.models.Customer;
-import com.qa.models.Order;
-import com.qa.persistence.service.CrudService;
-import com.qa.persistence.service.OrderService;
+import com.qa.dto.Customer;
+import com.qa.dto.Order;
+import com.qa.services.CrudService;
+import com.qa.services.OrderService;
+import com.qa.utils.ConnectionMySQL;
 
 public class OrderServiceTest {
 	
-	CrudService<Order> orderService;
+	CrudService<Order> orderService; 
 	
 	@Before
 	public void setUp() {
+		ConnectionMySQL.setTestable(true);
 		orderService = new OrderService();
 	}  
 	
@@ -43,7 +46,7 @@ public class OrderServiceTest {
 		
 		List<Order> orders = orderService.selectAll();
 		Customer first = orders.get(0).getCustomer();
-		String name = "Tony Robins";
+		String name = "Garry";
 		String customerName = first.getName();
 		System.out.println(customerName);
 		assertTrue(name.equals(customerName));
@@ -53,6 +56,9 @@ public class OrderServiceTest {
 		assertNull(checkIfDeleted); 
 	}
 	
-	
+	@After
+	public void onFinish() {
+		ConnectionMySQL.closeConnection();
+	}
 
 }
