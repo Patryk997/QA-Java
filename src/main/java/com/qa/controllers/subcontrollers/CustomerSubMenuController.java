@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import com.qa.controllers.CustomersMenuController;
 import com.qa.controllers.MenuController;
 import com.qa.dto.Customer;
-import com.qa.main.SessionHashMap;
+import com.qa.security.SessionHashMap;
 import com.qa.services.CrudService;
 import com.qa.services.CustomerService;
 import com.qa.services.other.OrderItemService;

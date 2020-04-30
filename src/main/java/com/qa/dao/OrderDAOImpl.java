@@ -37,7 +37,7 @@ public class OrderDAOImpl implements OrderDAO {
 	
 	@Override
 	public int create(Order order) throws SQLException {  
-		int rowInserted = 0; 
+		int rowInserted = 0;  
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ORDER_SQL,

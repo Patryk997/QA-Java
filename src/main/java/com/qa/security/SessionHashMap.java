@@ -1,4 +1,4 @@
-package com.qa.main;
+package com.qa.security;
 
 import java.util.HashMap;
 
@@ -10,10 +10,6 @@ public class SessionHashMap extends HashMap<String, Integer> {
 	 needed for all the user session. It will have 2 keys:
 	 custmerId
 	 orderId
-	 * 
-	 */
-	
-	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;

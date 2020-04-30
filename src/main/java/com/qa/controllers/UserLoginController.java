@@ -6,8 +6,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.qa.dto.Customer;
-import com.qa.main.SessionHashMap;
 import com.qa.security.Authenticate;
+import com.qa.security.SessionHashMap;
 import com.qa.services.CustomerService;
 import com.qa.utils.Utils;
 
@@ -33,7 +33,7 @@ public class UserLoginController implements MenuController<Customer> {
 	boolean isAuthenticated() {
 		return Authenticate.isAuthenticated();
 	}
-	
+	 
 	String getInput() {
 		return Utils.getInput();
 	}

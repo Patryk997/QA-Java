@@ -7,11 +7,12 @@ import org.apache.log4j.Logger;
 import com.qa.controllers.MainController;
 import com.qa.dto.Customer;
 import com.qa.dto.Order;
+import com.qa.security.SessionHashMap;
 import com.qa.services.CustomerService;
 import com.qa.services.OrderService;
 import com.qa.utils.Utils;
 
-public class InventoryApp {
+public class InventoryApp { 
 
 	public static final Logger LOGGER = Logger.getLogger(InventoryApp.class);
 	

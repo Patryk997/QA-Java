@@ -6,9 +6,7 @@ import java.sql.SQLException;
 
 import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 
-public class ConnectionMySQL { 
-	
-	// java -jar QA-Java-jar-with-dependencies.jar
+public class ConnectionMySQL {  
 	
 	private static Connection connection;
 	
