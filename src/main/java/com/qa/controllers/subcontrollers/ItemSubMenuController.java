@@ -28,7 +28,7 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	public void setMenu(MenuController menu) {
 		this.menu = menu;
 	} 
-	
+	 
 	public void setService(CrudService service) {
 		this.service = service;
 	}
@@ -119,6 +119,8 @@ public class ItemSubMenuController implements SubMenuController<Item> {
 	                valueDouble = Double.valueOf(value);
 					flag = false;
 				} catch (InputMismatchException e) {
+					LOGGER.warn("Select a number in format e.g 33.33 or 9.00 and no more than 6 digits long");
+				}  catch (NumberFormatException e) {
 					LOGGER.warn("Select a number in format e.g 33.33 or 9.00 and no more than 6 digits long");
 				}
 			}
