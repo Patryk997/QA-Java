@@ -2,7 +2,7 @@ package com.qa.controllers;
 
 import org.apache.log4j.Logger;
 
-import com.qa.main.ScannerHashMap;
+import com.qa.utils.ScannerHashMap;
 import com.qa.utils.Utils;
 
 public class MainController {

@@ -40,7 +40,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 	
 	
 	@Override
-	public int create(OrderItem orderItem) {  
+	public int create(OrderItem orderItem) {   
 		int rowSelected = 0;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -138,7 +138,6 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 			System.out.println("Sorry, could not execute the request");
 		} finally {
 		    try { preparedStatement.close(); } catch (Exception e) { /* ignored */ }
-		    //try { connection.close(); } catch (Exception e) { /* ignored */ }
 		}
 		return listOrderItems;
 	}
@@ -182,8 +181,7 @@ public class OrderItemDAOImpl implements OrderItemDAO {
 			preparedStatement.setInt(1, itemId);
 			preparedStatement.setInt(2, orderId);
 			rowDeleted = preparedStatement.executeUpdate();
-		
-			
+	
 		} catch (Exception e) {
 			System.out.println("Sorry, could not execute the request");
 		}

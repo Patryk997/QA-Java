@@ -22,7 +22,7 @@ public class ItemsDAOImpl implements ItemsDAO {
 	private static final String DELETE_ITEM_SQL = "DELETE from Item WHERE Item_ID = ?;";
 
 	
-	@Override 
+	@Override  
 	public Item select(int id) {
 		Item item = null;
 		PreparedStatement preparedStatement = null; 

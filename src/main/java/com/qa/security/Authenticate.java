@@ -7,11 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.apache.log4j.Logger;
-
-import com.qa.main.SessionHashMap;
 import com.qa.utils.ConnectionMySQL;
 
-public class Authenticate {
+public class Authenticate { 
 	
 	public static final Logger LOGGER = Logger.getLogger(Authenticate.class);
 	
@@ -29,7 +27,7 @@ public class Authenticate {
 	public int login (String username, String password) {
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		int rowCounted = 0;
+		int rowCounted = 0; 
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
 			preparedStatement = connection.prepareStatement(AUTHENTICATE_USER_SQL,

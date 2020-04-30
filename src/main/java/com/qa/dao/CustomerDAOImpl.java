@@ -21,7 +21,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 	private static final String DELETE_CUSTOMER_SQL = "DELETE FROM Customer WHERE Customer_ID = ?";
 	private static final String UPDATE_CUSTOMER_USER_SQL = "UPDATE Customer SET FK_User_ID = ? WHERE Customer_ID = ?";
 
-	@Override
+	@Override 
 	public int create(Customer customer) throws SQLException {
 		int rowInserted = 0;
 		try {

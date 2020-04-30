@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import com.qa.controllers.MenuController;
 import com.qa.controllers.OrdersMenuController;
 import com.qa.dto.Order;
-import com.qa.main.SessionHashMap;
+import com.qa.security.SessionHashMap;
 import com.qa.services.CrudService;
 import com.qa.services.ItemsService;
 import com.qa.services.OrderService;
@@ -21,7 +21,7 @@ public class OrderSubMenuController implements SubMenuController<Order> {
 	
 	public static final Logger LOGGER = Logger.getLogger(OrderSubMenuController.class);
 	
-	MenuController menu; 
+	MenuController menu;  
 	CrudService service;
 	OrderItemService orderItemService;
 	

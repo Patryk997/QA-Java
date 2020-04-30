@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 import com.qa.controllers.MainController;
 import com.qa.dto.Customer;
 import com.qa.main.InventoryApp;
-import com.qa.main.SessionHashMap;
+import com.qa.security.SessionHashMap;
 import com.qa.services.CustomerService;
 import com.qa.services.OrderService;
 import com.qa.utils.ConnectionMySQL;

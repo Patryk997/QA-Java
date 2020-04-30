@@ -1,0 +1,48 @@
+
+
+CREATE TABLE `User` (
+  `User_ID` int NOT NULL auto_increment,
+  `Username` varchar(30),
+  `Password` varchar(40),
+  `IsAdmin` boolean,
+  PRIMARY KEY (`User_ID`)
+);
+
+CREATE TABLE `Customer` (
+  `Customer_ID` int  NOT NULL auto_increment,
+  `FK_User_ID` int,
+  `Name` varchar(40),
+  PRIMARY KEY (`Customer_ID`),
+  FOREIGN KEY (`FK_User_ID`) REFERENCES `User` (`User_ID`)
+);
+
+CREATE TABLE `Item` (
+  `Item_ID` int NOT NULL auto_increment,
+  `Name` varchar(30),
+  `Value` decimal(7,2),
+  PRIMARY KEY (`Item_ID`)
+);
+
+CREATE TABLE `Order` (
+  `Order_ID` int NOT NULL auto_increment,
+  `FK_Customer_ID` int,
+  `Placed` date,
+  `Paid` boolean,
+  `Total` decimal(7,2),
+  PRIMARY KEY (`Order_ID`),
+FOREIGN KEY (`FK_Customer_ID`) REFERENCES `Customer` (`Customer_ID`) ON DELETE SET NULL
+);
+
+CREATE TABLE `Order_Item` (
+  `Order_Item_ID` int NOT NULL auto_increment,
+  `FK_Item_ID` int,
+  `FK_Order_ID` int,
+  `Quantity` int,
+  PRIMARY KEY (`Order_Item_ID`),
+  FOREIGN KEY (`FK_Item_ID`) REFERENCES `Item` (`Item_ID`) ON DELETE SET NULL,
+  FOREIGN KEY (`FK_Order_ID`) REFERENCES `Order` (`Order_ID`) ON DELETE SET NULL
+);
+
+
+
+insert into User (Username, Password, IsAdmin) values ("admin", "admin", true);

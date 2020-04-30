@@ -1,4 +1,4 @@
-package com.qa.main;
+package com.qa.utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +10,7 @@ import com.qa.controllers.MenuController;
 import com.qa.controllers.OrdersMenuController;
 
 
-public class ScannerHashMap  {
+public class ScannerHashMap  { 
 	
 	private Map<String, MenuController> scannerMap;
 	
@@ -33,6 +33,5 @@ public class ScannerHashMap  {
 		scannerMap.put("2", CustomersMenuController.getCustomerMenu() );
 		scannerMap.put("3", OrdersMenuController.getOrderMenu());
 		scannerMap.put("4", UserLoginController.getAdminLogin());
-		//super.put("exit", ExitStrategyImp.returnStrategy());
 	}
 }

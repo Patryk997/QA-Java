@@ -12,8 +12,5 @@ public interface CustomerDAO {
 	List<Customer> selectAll() throws SQLException;
 	boolean delete(int id) throws SQLException;
 	boolean update(Customer customer) throws SQLException;
-	
-	
-	
 	boolean updateCustomerAsAdmin(Customer customer) throws SQLException ;
 }

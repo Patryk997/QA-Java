@@ -1,21 +1,17 @@
 package com.qa.controllers;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.qa.main.ScannerHashMap;
 import com.qa.utils.ConnectionMySQL;
+import com.qa.utils.ScannerHashMap;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MainControllerTest {

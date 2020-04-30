@@ -5,7 +5,6 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.mock;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -15,9 +14,6 @@ import org.mockito.Mockito;
 
 import com.qa.dto.Item;
 import com.qa.dto.OrderItem;
-import com.qa.main.ScannerHashMap;
-import com.qa.main.SessionHashMap;
-import com.qa.services.ItemsService;
 import com.qa.services.OrderService;
 import com.qa.services.other.OrderItemService;
 import com.qa.utils.ConnectionMySQL;
@@ -108,7 +104,7 @@ public class OrdersMenuControllerTest {
 		Mockito.doReturn("selected").when(ordersController2).selectMenuOptions();
 		assertEquals("completed", ordersController2.completeOrder(true, 9));
 		
-	}
+	} 
 	
 	@After
 	public void onFinish() {
