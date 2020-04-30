@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import com.qa.controllers.MainController;
-import com.qa.models.Customer;
-import com.qa.models.Order;
-import com.qa.persistence.service.CustomerService;
-import com.qa.persistence.service.OrderService;
+import com.qa.dto.Customer;
+import com.qa.dto.Order;
+import com.qa.services.CustomerService;
+import com.qa.services.OrderService;
 import com.qa.utils.Utils;
 
 public class InventoryRunner {

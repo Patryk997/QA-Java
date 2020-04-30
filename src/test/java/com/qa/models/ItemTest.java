@@ -10,6 +10,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.qa.dto.Item;
+
 public class ItemTest {
 	
 	private Item item;

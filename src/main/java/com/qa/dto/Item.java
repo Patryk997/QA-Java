@@ -1,4 +1,4 @@
-package com.qa.models;
+package com.qa.dto;
 
 import java.util.Objects;
 

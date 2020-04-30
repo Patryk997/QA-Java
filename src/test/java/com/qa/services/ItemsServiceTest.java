@@ -6,13 +6,15 @@ import static org.junit.Assert.assertNull;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.qa.models.Item;
-import com.qa.persistence.service.CrudService;
-import com.qa.persistence.service.ItemsService;
+import com.qa.dto.Item;
+import com.qa.services.CrudService;
+import com.qa.services.ItemsService;
+import com.qa.utils.ConnectionMySQL;
 
 public class ItemsServiceTest {
 	
@@ -20,10 +22,11 @@ public class ItemsServiceTest {
 	
 	@Before
 	public void setUp() {
+		ConnectionMySQL.setTestable(true);
 		itemsService = new ItemsService();
 	} 
 	
-	@Test
+	@Test 
 	//@Ignore
 	public void ItemsCRUD() throws SQLException { 
 		
@@ -44,6 +47,11 @@ public class ItemsServiceTest {
 		boolean toDelete = itemsService.delete(id);
 		Item checkIfDeleted = itemsService.select(id);
 		assertNull(checkIfDeleted);
+	}
+	
+	@After
+	public void onFinish() {
+		ConnectionMySQL.closeConnection();
 	}
 
 }

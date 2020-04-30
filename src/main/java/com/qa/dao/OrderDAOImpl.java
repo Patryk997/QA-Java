@@ -1,4 +1,4 @@
-package com.qa.persistence.dao;
+package com.qa.dao;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -9,8 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qa.models.Customer;
-import com.qa.models.Order;
+import com.qa.dto.Customer;
+import com.qa.dto.Order;
 import com.qa.utils.ConnectionMySQL;
 
 public class OrderDAOImpl implements OrderDAO {
@@ -36,8 +36,8 @@ public class OrderDAOImpl implements OrderDAO {
 	
 	
 	@Override
-	public int create(Order order) throws SQLException { 
-		int rowInserted = 0;
+	public int create(Order order) throws SQLException {  
+		int rowInserted = 0; 
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(CREATE_ORDER_SQL,
@@ -51,7 +51,7 @@ public class OrderDAOImpl implements OrderDAO {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Sorry, could not execute the request");
 		}
 		return rowInserted;
 	}
@@ -77,8 +77,8 @@ public class OrderDAOImpl implements OrderDAO {
 				ordersList.add(new Order(id, customer, placed, paid, total));
 			}
 
-		} catch(SQLException e) {
-			e.printStackTrace();
+		} catch(Exception e) {
+			System.out.println("Sorry, could not execute the request");
 		} finally {
 		    try { preparedStatement.close(); } catch (Exception e) { /* ignored */ }
 		}
@@ -107,8 +107,8 @@ public class OrderDAOImpl implements OrderDAO {
 				order = new Order(id, customer, placed, paid, total);
 			}
 
-		} catch(SQLException e) {
-			e.printStackTrace();
+		} catch(Exception e) { 
+			System.out.println("Sorry, could not execute the request");
 		} finally {
 		    try { preparedStatement.close(); } catch (Exception e) { /* ignored */ }
 		}
@@ -127,7 +127,7 @@ public class OrderDAOImpl implements OrderDAO {
 			rowDeleted = preparedStatement.execute();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Sorry, could not execute the request");
 		}
 		
 		try {
@@ -137,7 +137,7 @@ public class OrderDAOImpl implements OrderDAO {
 			rowDeleted = preparedStatement.execute();
 		
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Sorry, could not execute the request");
 		} finally {
 		    try { preparedStatement.close(); } catch (Exception e) { /* ignored */ }
 		}
@@ -158,7 +158,7 @@ public class OrderDAOImpl implements OrderDAO {
 			rowUpdated = true;
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Sorry, could not execute the request");
 		}
 		return rowUpdated;
 	}

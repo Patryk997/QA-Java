@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import java.sql.Date;
 import java.sql.SQLException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -15,11 +16,11 @@ import org.mockito.Mockito;
 
 
 import com.qa.controllers.OrdersMenuController;
-import com.qa.models.Customer;
-import com.qa.models.Order;
-
-import com.qa.persistence.service.OrderService;
-import com.qa.persistence.service.other.OrderItemService;
+import com.qa.dto.Customer;
+import com.qa.dto.Order;
+import com.qa.services.OrderService;
+import com.qa.services.other.OrderItemService;
+import com.qa.utils.ConnectionMySQL;
 
 public class OrderSubControllerTest {
 	
@@ -29,6 +30,7 @@ public class OrderSubControllerTest {
 	
 	@Before
 	public void setUp() {
+		ConnectionMySQL.setTestable(true);
 		orderSubMenuController = new OrderSubMenuController(new OrderItemService());
 	}
 	
@@ -86,6 +88,11 @@ public class OrderSubControllerTest {
 		
 		assertEquals("query ok", orderSubMenuController2.selectSubMenu());
 	
+	}
+	
+	@After
+	public void onFinish() {
+		ConnectionMySQL.closeConnection();
 	}
 
 }

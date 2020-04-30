@@ -6,11 +6,11 @@ import org.apache.log4j.Logger;
 
 import com.qa.controllers.CustomersMenuController;
 import com.qa.controllers.MenuController;
+import com.qa.dto.Customer;
 import com.qa.main.SessionHashMap;
-import com.qa.models.Customer;
-import com.qa.persistence.service.CrudService;
-import com.qa.persistence.service.CustomerService;
-import com.qa.persistence.service.other.OrderItemService;
+import com.qa.services.CrudService;
+import com.qa.services.CustomerService;
+import com.qa.services.other.OrderItemService;
 import com.qa.utils.Utils;
 
 public class CustomerSubMenuController implements SubMenuController<Customer> {
@@ -21,7 +21,7 @@ public class CustomerSubMenuController implements SubMenuController<Customer> {
 	CrudService service; 
 	OrderItemService orderItemService;
 	
-	public void setMenu(MenuController menu) {
+	public void setMenu(MenuController menu) {  
 		this.menu = menu;
 	}
 	
@@ -42,7 +42,7 @@ public class CustomerSubMenuController implements SubMenuController<Customer> {
 			customerSubMenu = new CustomerSubMenuController(new OrderItemService());
 		return customerSubMenu;
 	}
-	
+	 
 	
 	
 	@Override
@@ -95,9 +95,8 @@ public class CustomerSubMenuController implements SubMenuController<Customer> {
 		while(flag) {
 			String select = getInput();
 			if(select == "0") {
-			
+			    flag = false;
 				menu.selectMenuOptions();
-				flag = false;
 			}
 				
 			try {
@@ -105,11 +104,9 @@ public class CustomerSubMenuController implements SubMenuController<Customer> {
 				customer = selectById(customerId);
 				flag = false;
 			} catch (SQLException e) {
-				e.printStackTrace();
 				LOGGER.warn("This customer does not exist");
 				
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
 				LOGGER.warn("Select correct customer ID");
 				
 			}
@@ -126,12 +123,13 @@ public class CustomerSubMenuController implements SubMenuController<Customer> {
 			String next = getInput();
 			switch(next) {
 				case "1":
-					deleteCustomerFromSystem(customerId);			
+					flag = false;
+					deleteCustomerFromSystem(customerId);	
 					break;
 					
 				case "2":
-					menu.selectMenuOptions();
 					flag = false;
+					menu.selectMenuOptions();
 					break;
 
 				default:	

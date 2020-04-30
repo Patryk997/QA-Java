@@ -1,11 +1,11 @@
-package com.qa.persistence.service;
+package com.qa.services;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import com.qa.models.Customer;
-import com.qa.persistence.dao.CustomerDAO;
-import com.qa.persistence.dao.CustomerDAOImpl;
+import com.qa.dao.CustomerDAO;
+import com.qa.dao.CustomerDAOImpl;
+import com.qa.dto.Customer;
 
 public class CustomerService implements CrudService<Customer> {
 

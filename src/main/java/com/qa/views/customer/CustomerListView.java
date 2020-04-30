@@ -3,7 +3,7 @@ package com.qa.views.customer;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.qa.models.Customer;
+import com.qa.dto.Customer;
 
 public class CustomerListView {
 	

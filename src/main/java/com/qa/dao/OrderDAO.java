@@ -1,9 +1,9 @@
-package com.qa.persistence.dao;
+package com.qa.dao;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import com.qa.models.Order;
+import com.qa.dto.Order;
 
 public interface OrderDAO {
 

@@ -1,12 +1,12 @@
-package com.qa.persistence.service.other;
+package com.qa.services.other;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import com.qa.models.Item;
-import com.qa.models.OrderItem;
-import com.qa.persistence.dao.OrderItemDAO;
-import com.qa.persistence.dao.OrderItemDAOImpl;
+import com.qa.dao.OrderItemDAO;
+import com.qa.dao.OrderItemDAOImpl;
+import com.qa.dto.Item;
+import com.qa.dto.OrderItem;
 
 public class OrderItemService  {
 	

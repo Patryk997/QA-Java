@@ -6,14 +6,16 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import com.qa.dto.Item;
 import com.qa.main.ScannerHashMap;
-import com.qa.models.Item;
-import com.qa.persistence.service.ItemsService;
+import com.qa.services.ItemsService;
+import com.qa.utils.ConnectionMySQL;
 import com.qa.utils.Utils;
 
 public class ItemsMenuControllerTest {
@@ -26,6 +28,9 @@ public class ItemsMenuControllerTest {
 	
 	@Before
 	public void setUp() {
+		
+		ConnectionMySQL.setTestable(true);
+		
 		itemsService = new ItemsService();
 		itemsService2 = Mockito.spy(itemsService);
 		
@@ -58,6 +63,11 @@ public class ItemsMenuControllerTest {
 
 		assertEquals("added", itemsController2.add());
 
+	} 
+	
+	@After
+	public void onFinish() {
+		ConnectionMySQL.closeConnection();
 	}
 
 }

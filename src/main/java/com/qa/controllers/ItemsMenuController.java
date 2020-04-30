@@ -8,10 +8,10 @@ import org.apache.log4j.Logger;
 
 import com.qa.controllers.subcontrollers.ItemSubMenuController;
 import com.qa.controllers.subcontrollers.SubMenuController;
-import com.qa.models.Item;
-import com.qa.persistence.service.CrudService;
-import com.qa.persistence.service.ItemsService;
+import com.qa.dto.Item;
 import com.qa.security.Authenticate;
+import com.qa.services.CrudService;
+import com.qa.services.ItemsService;
 import com.qa.utils.Utils;
 import com.qa.views.items.ItemsListView;
 
@@ -46,10 +46,10 @@ public class ItemsMenuController implements MenuController {
 		if(itemsMenu == null)
 			itemsMenu = new ItemsMenuController(new ItemsService());
 		return itemsMenu;
-	}
+	} 
 	
 	@Override
-	public List<Item> viewAll() {
+	public List<Item> viewAll() { 
 		/*
 		 * lists all items available in the system
 		 * */
@@ -145,8 +145,8 @@ public class ItemsMenuController implements MenuController {
 					flag = false;
 					break;
 				case "2":
-					menu.selectMenuOptions();
 					flag = false;
+					menu.selectMenuOptions();
 					break;
 				case "3":		
 					add();

@@ -1,11 +1,11 @@
-package com.qa.persistence.service;
+package com.qa.services;
 
 import java.sql.SQLException;
 import java.util.List;
 
-import com.qa.models.Order;
-import com.qa.persistence.dao.OrderDAO;
-import com.qa.persistence.dao.OrderDAOImpl;
+import com.qa.dao.OrderDAO;
+import com.qa.dao.OrderDAOImpl;
+import com.qa.dto.Order;
 
 public class OrderService implements CrudService<Order> {
 	

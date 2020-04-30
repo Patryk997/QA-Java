@@ -14,6 +14,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.qa.dto.Customer;
+import com.qa.dto.Order;
+
 public class OrderTest {
 	
 	Order order;

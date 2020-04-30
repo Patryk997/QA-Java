@@ -1,4 +1,4 @@
-package com.qa.persistence.dao;
+package com.qa.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qa.models.Item;
+import com.qa.dto.Item;
 import com.qa.utils.ConnectionMySQL;
 
 public class ItemsDAOImpl implements ItemsDAO {
@@ -22,10 +22,10 @@ public class ItemsDAOImpl implements ItemsDAO {
 	private static final String DELETE_ITEM_SQL = "DELETE from Item WHERE Item_ID = ?;";
 
 	
-	@Override
+	@Override 
 	public Item select(int id) {
 		Item item = null;
-		PreparedStatement preparedStatement = null;
+		PreparedStatement preparedStatement = null; 
 		Connection connection = null;
 		ResultSet rs  = null;
 
@@ -42,8 +42,8 @@ public class ItemsDAOImpl implements ItemsDAO {
 				item = new Item(itemId, name, value);
 			}
 			//connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Sorry, could not execute statement");
 		} finally {
 		    try { preparedStatement.close(); } catch (Exception e) { /* ignored */ }
 		}
@@ -69,8 +69,8 @@ public class ItemsDAOImpl implements ItemsDAO {
 				double value = rs.getDouble("value");
 				items.add(new Item(id, name, value));
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Sorry, could not execute statement");
 		} finally {
 			try { preparedStatement.close(); } catch (Exception e) { /* ignored */ }
 		}
@@ -89,12 +89,14 @@ public class ItemsDAOImpl implements ItemsDAO {
 			preparedStatement.setDouble(2, item.getValue());
 			preparedStatement.executeUpdate();
 			ResultSet rs = preparedStatement.getGeneratedKeys();
-			if (rs.next()) {
+			if (rs.next()) { 
 			    rowInserted = rs.getInt(1);
 			}
 			
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("Sorry, could not execute statement");
+		} catch (NullPointerException e) {
+			System.out.println("Sorry, could not execute statement");
 		}
 		return rowInserted;
 	}
@@ -118,14 +120,13 @@ public class ItemsDAOImpl implements ItemsDAO {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Sorry, could not execute statement");
 		}
 		return rowInserted;
 	}
 
 	@Override
 	public boolean delete(int index) {
-		boolean rowDeleted = false;
 		try {
 			Connection connection = ConnectionMySQL.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ITEM_FROM_ORDER_ITEMS_SQL,
@@ -136,10 +137,10 @@ public class ItemsDAOImpl implements ItemsDAO {
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 			if (rs.next()) {
 			    //rowDeleted = rs.getInt(1);
-			}
+			} 
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Sorry, could not execute statement");
 		}
 		
 		try {
@@ -154,7 +155,7 @@ public class ItemsDAOImpl implements ItemsDAO {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Sorry, could not execute statement");
 		}
 		return true;
 	}

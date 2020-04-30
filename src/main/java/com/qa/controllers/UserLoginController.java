@@ -5,28 +5,48 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.qa.dto.Customer;
 import com.qa.main.SessionHashMap;
-import com.qa.models.Customer;
-import com.qa.persistence.service.CustomerService;
 import com.qa.security.Authenticate;
+import com.qa.services.CustomerService;
 import com.qa.utils.Utils;
 
 public class UserLoginController implements MenuController<Customer> {
+	
+	MainController menu;
 	
 	public static final Logger LOGGER = Logger.getLogger(UserLoginController.class);
 	
     private static UserLoginController adminMenuController;
 	public static UserLoginController getAdminLogin() {
 		if(adminMenuController == null)
-			adminMenuController = new UserLoginController();
+			adminMenuController = new UserLoginController(MainController.getMainMenu());
 		return adminMenuController;
 	}
 	
+	public UserLoginController(MainController menu) {
+		this.menu = menu;
+	}
+	
+	
+	
+	boolean isAuthenticated() {
+		return Authenticate.isAuthenticated();
+	}
+	
+	String getInput() {
+		return Utils.getInput();
+	}
+	
+	Authenticate getAuthenticate() { 
+		return Authenticate.getAuthenticate();
+	}
+	
 	public String login() {
-		MainController menu = MainController.getMainMenu();
+		//MainController menu = MainController.getMainMenu();
 		boolean flag = true;
 		
-		if(Authenticate.isAuthenticated()) {
+		if(isAuthenticated()) {
 			logout();
 			menu.selectMenuOptions();
 			flag = false;
@@ -36,19 +56,20 @@ public class UserLoginController implements MenuController<Customer> {
 		
 		while(flag) { 
 			LOGGER.info("Your username or 0 to return:");
-			String username = Utils.getInput();
+			String username = getInput();
 			if(username.equals("0")) {
 				menu.selectMenuOptions();
 				flag = false;
 				return "main";
 			}
 			LOGGER.info("Your password:");
-			String password = Utils.getInput();
+			String password = getInput();
 			
-			Authenticate authenticate = Authenticate.getAuthenticate();
+			Authenticate authenticate = getAuthenticate(); 
 			int userId = authenticate.login(username, password);
 			if( userId > 0) {
 				LOGGER.info("** Successfully authenticated as admin **");
+				flag = false;
 	            SessionHashMap.getSessionHashMap().put("authenticated", 1000);
 	            updateCustomerAdmin(userId);
 	            menu.selectMenuOptions();
@@ -85,11 +106,10 @@ public class UserLoginController implements MenuController<Customer> {
 		LOGGER.info("*** WELCOME TO ADMIN LOGIN ***");
         
         String next = "";
-        MainController menu = MainController.getMainMenu();
         boolean flag = true;
         while(flag) {
         	LOGGER.info("Login/Logout as admin [1] | back [2]");
-        	next = Utils.getInput();
+        	next = getInput();
         	switch(next) {
 				case "1":
 					login();
@@ -98,6 +118,7 @@ public class UserLoginController implements MenuController<Customer> {
 				
 				case "2":		
 					menu.selectMenuOptions();
+					flag = false;
 					break;
 					
 			    default:

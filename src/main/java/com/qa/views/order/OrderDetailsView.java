@@ -1,6 +1,6 @@
 package com.qa.views.order;
 
-import com.qa.models.Order;
+import com.qa.dto.Order;
 
 public class OrderDetailsView {
 

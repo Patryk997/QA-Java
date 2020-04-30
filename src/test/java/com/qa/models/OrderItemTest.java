@@ -11,6 +11,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.qa.dto.Item;
+import com.qa.dto.OrderItem;
+
 public class OrderItemTest {
 	
 	OrderItem orderItem;
