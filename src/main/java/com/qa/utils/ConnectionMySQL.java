@@ -10,11 +10,11 @@ public class ConnectionMySQL {
 	
 	private static Connection connection;
 	
-	//private static final String jdbcURLTest = "jdbc:mysql://34.89.125.175/inventory?user=root&password=root"; // test
-	//private static final String jdbcURLProd = "jdbc:mysql://35.197.207.145/inventory?user=root&password=root"; // prod
+	private static final String jdbcURLTest = "jdbc:mysql://XX.XX.XXX.XXX/inventory?user=root&password=root"; // test
+    private static final String jdbcURLProd = "jdbc:mysql://XX.XX.XXX.XXX/inventory?user=root&password=root"; // prod
 	
-	private static final String jdbcURLTest = "jdbc:mysql://10.92.48.5/inventory?user=root&password=root";
-	private static final String jdbcURLProd = "jdbc:mysql://10.92.48.3/inventory?user=root&password=root";
+	//private static final String jdbcURLTest = "jdbc:mysql://XX.XX.XX.X/inventory?user=root&password=root"; // priv
+	//private static final String jdbcURLProd = "jdbc:mysql://XX.XX.XX.X/inventory?user=root&password=root"; // prive
 	
 	private static boolean isTestable = false;
 	private static String jdbcURL;
