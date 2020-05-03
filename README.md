@@ -36,7 +36,7 @@ The application is an inventory management system that is able to:
 ### Install ###
 
  * Go to directory where you have you pom.xml and run mvn clean package
- * change the direcotiry to target folder and run java -jar QA-Java-jar-with-dependencies.jar
+ * change the direcotiry to target folder and run java -jar Patryk-Maryn-IMS-jar-with-dependencies.jar
  
  username and paswword for admin are "admin" and "admin"
  
